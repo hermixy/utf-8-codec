@@ -24,6 +24,12 @@ target_link_libraries("utf8-point-test" "utf8-string")
 
 add_test("utf8-point-test" "utf8-point-test")
 
+add_executable("utf8-sequence-test" "utf8-string-test.c")
+
+target_link_libraries("utf8-sequence-test" "utf8-string")
+
+add_test("utf8-sequence-test" "utf8-string-test")
+
 add_executable("utf8-string-test" "utf8-string-test.c")
 
 target_link_libraries("utf8-string-test" "utf8-string")
