@@ -16,3 +16,11 @@ add_library("utf8-string"
 	"utf8-sequence.c"
 	"utf8-string.c")
 
+enable_testing()
+
+add_executable("utf8-point-test" "utf8-point-test.c")
+
+target_link_libraries("utf8-point-test" "utf8-string")
+
+add_test("utf8-point-test" "utf8-point-test")
+
