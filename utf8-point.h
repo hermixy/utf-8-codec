@@ -18,7 +18,7 @@
 #ifndef UTF8_STRING_UTF8_POINT_H
 #define UTF8_STRING_UTF8_POINT_H
 
-typedef char utf8_point;
+typedef unsigned char utf8_point;
 
 int utf8_point_Get_Span(utf8_point point);
 
