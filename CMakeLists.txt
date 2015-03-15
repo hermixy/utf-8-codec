@@ -11,5 +11,8 @@ elseif (MSVC)
 	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /WX")
 endif (CMAKE_COMPILER_IS_GNUCC)
 
-add_library("utf8-string" "utf8-point.c" "utf8-string.c")
+add_library("utf8-string"
+	"utf8-point.c"
+	"utf8-sequence.c"
+	"utf8-string.c")
 
