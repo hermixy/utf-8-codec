@@ -19,18 +19,30 @@
 
 int utf8_point_Get_Span(utf8_point point){
 
-	if ((point & 0x80) == 0x00){
+	if (point <= 0x7F){
 		return 1;
-	} else if ((point & 0xC0) == 0x80){
+	}
+
+	if ((point >= 0xC0) && (point <= 0xDF)){
 		return 2;
-	} else if ((point & 0xE0) == 0xC0){
+	}
+
+	if ((point >= 0xE0) && (point <= 0xEF)){
 		return 3;
-	} else if ((point & 0xF0) == 0xE0){
+	}
+
+	if ((point >= 0xF0) && (point <= 0xF7)){
 		return 4;
-	} else if ((point & 0xF8) == 0xF0){
+	}
+
+	if ((point >= 0xF8) && (point <= 0xFB)){
 		return 5;
 	}
 
-	return 6;
+	if ((point >= 0xFC) && (point <= 0xFD)){
+		return 6;
+	}
+
+	return -1;
 }
 
