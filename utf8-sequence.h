@@ -18,6 +18,7 @@
 #ifndef UTF8_SEQUENCE_H
 #define UTF8_SEQUENCE_H
 
+#include "utf8-char.h"
 #include "utf8-point.h"
 
 #define UTF8_SEQUENCE_POINT_MAX 6
@@ -30,6 +31,10 @@ typedef struct utf8_sequence {
 int utf8_sequence_Init(utf8_sequence * sequence);
 
 void utf8_sequence_Done(utf8_sequence * sequence);
+
+utf8_char utf8_sequence_Decode(utf8_sequence * sequence);
+
+int utf8_sequence_Encode(utf8_sequence * sequence, utf8_char c);
 
 #endif /* UTF8_SEQUENCE_H */
 
