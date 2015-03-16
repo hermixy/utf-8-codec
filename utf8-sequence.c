@@ -28,3 +28,38 @@ void utf8_sequence_Done(utf8_sequence * sequence){
 	memset(sequence, 0, sizeof(*sequence));
 }
 
+utf8_char utf8_sequence_Decode(utf8_sequence * sequence){
+
+	int point_index = 0;
+
+	int bit_index = 0;
+
+	utf8_char c = 0;
+
+	int point_count = utf8_point_Get_Span(sequence->point_array[0]);
+	if (point_count < 0){
+		return -1;
+	}
+
+	for (point_index = 0; point_index < point_count; point_index++){
+
+		int point_bit_count = 0;
+
+		int point_data = utf8_point_Get_Data(sequence->point_array[0]);
+		if (point_data < 0){
+			return -2;
+		}
+
+		c += point_data << bit_index;
+
+		point_bit_count = utf8_point_Get_Data_Bit_Count(sequence->point_array[0]);
+		if (point_bit_count < 0){
+			return -3;
+		}
+
+		bit_index += point_bit_count;
+	}
+
+	return c;
+}
+
