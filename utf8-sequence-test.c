@@ -168,6 +168,52 @@ int utf8_sequence__Test_Decode(void){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x100000);
 	}
 
+	sequence.point_array[0] = 0xF7;
+	sequence.point_array[1] = 0xBF;
+	sequence.point_array[2] = 0xBF;
+	sequence.point_array[3] = 0xBF;
+	if (utf8_sequence_Decode(&sequence) != 0x1FFFFF){
+		return utf8_sequence__Test_Decode__Fail(&sequence, 0x1FFFFF);
+	}
+
+	sequence.point_array[0] = 0xF9;
+	sequence.point_array[1] = 0x80;
+	sequence.point_array[2] = 0x80;
+	sequence.point_array[3] = 0x80;
+	sequence.point_array[4] = 0x80;
+	if (utf8_sequence_Decode(&sequence) != 0x01000000){
+		return utf8_sequence__Test_Decode__Fail(&sequence, 0x01000000);
+	}
+
+	sequence.point_array[0] = 0xFB;
+	sequence.point_array[1] = 0xBF;
+	sequence.point_array[2] = 0xBF;
+	sequence.point_array[3] = 0xBF;
+	sequence.point_array[4] = 0xBF;
+	if (utf8_sequence_Decode(&sequence) != 0x03FFFFFF){
+		return utf8_sequence__Test_Decode__Fail(&sequence, 0x03FFFFFF);
+	}
+
+	sequence.point_array[0] = 0xFD;
+	sequence.point_array[1] = 0x80;
+	sequence.point_array[2] = 0x80;
+	sequence.point_array[3] = 0x80;
+	sequence.point_array[4] = 0x80;
+	sequence.point_array[5] = 0x80;
+	if (utf8_sequence_Decode(&sequence) != 0x40000000){
+		return utf8_sequence__Test_Decode__Fail(&sequence, 0x40000000);
+	}
+
+	sequence.point_array[0] = 0xFD;
+	sequence.point_array[1] = 0xBF;
+	sequence.point_array[2] = 0xBF;
+	sequence.point_array[3] = 0xBF;
+	sequence.point_array[4] = 0xBF;
+	sequence.point_array[5] = 0xBF;
+	if (utf8_sequence_Decode(&sequence) != 0x7FFFFFFF){
+		return utf8_sequence__Test_Decode__Fail(&sequence, 0x7FFFFFFF);
+	}
+
 	return 0;
 }
 
