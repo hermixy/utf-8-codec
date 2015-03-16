@@ -64,14 +64,14 @@ int utf8_sequence__Test_Init(void){
 		return -1;
 	}
 
-	if (sequence.point_count != 0){
-		fprintf(stderr, "point count != 0 after initialization\n");
+	if (sequence.byte_count != 0){
+		fprintf(stderr, "byte count != 0 after initialization\n");
 		return -2;
 	}
 
 	for (i = 0; i < UTF8_SEQUENCE_POINT_MAX; i++){
-		if (sequence.point_array[i] != 0){
-			fprintf(stderr, "point[%d] != 0\n", i);
+		if (sequence.byte_array[i] != 0){
+			fprintf(stderr, "byte[%d] != 0\n", i);
 			return -3;
 		}
 	}
@@ -91,19 +91,19 @@ int utf8_sequence__Test_Done(void){
 	}
 
 	for (i = 0; i < UTF8_SEQUENCE_POINT_MAX; i++){
-		sequence.point_array[i] = 0xF0;
+		sequence.byte_array[i] = 0xF0;
 	}
 
 	utf8_sequence_Done(&sequence);
 
-	if (sequence.point_count != 0){
-		fprintf(stderr, "point count != 0 after utf8_sequence_Done\n");
+	if (sequence.byte_count != 0){
+		fprintf(stderr, "byte count != 0 after utf8_sequence_Done\n");
 		return -2;
 	}
 
 	for (i = 0; i < UTF8_SEQUENCE_POINT_MAX; i++){
-		if (sequence.point_array[i] != 0){
-			fprintf(stderr, "point[%d] != 0\n", i);
+		if (sequence.byte_array[i] != 0){
+			fprintf(stderr, "byte[%d] != 0\n", i);
 			return -3;
 		}
 	}
@@ -118,98 +118,98 @@ int utf8_sequence__Test_Decode(void){
 	utf8_sequence sequence;
 	utf8_sequence_Init(&sequence);
 
-	sequence.point_array[0] = 0x00;
+	sequence.byte_array[0] = 0x00;
 	if (utf8_sequence_Decode(&sequence) != 0x00){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x00);
 	}
 
-	sequence.point_array[0] = 0x7F;
+	sequence.byte_array[0] = 0x7F;
 	if (utf8_sequence_Decode(&sequence) != 0x7F){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x7F);
 	}
 
-	sequence.point_array[0] = 0xC2;
-	sequence.point_array[1] = 0x80;
+	sequence.byte_array[0] = 0xC2;
+	sequence.byte_array[1] = 0x80;
 	if (utf8_sequence_Decode(&sequence) != 0x80){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x80);
 	}
 
-	sequence.point_array[0] = 0xCF;
-	sequence.point_array[1] = 0xBF;
+	sequence.byte_array[0] = 0xCF;
+	sequence.byte_array[1] = 0xBF;
 	if (utf8_sequence_Decode(&sequence) != 0x03FF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x03FF);
 	}
 
-	sequence.point_array[0] = 0xDF;
-	sequence.point_array[1] = 0xBF;
+	sequence.byte_array[0] = 0xDF;
+	sequence.byte_array[1] = 0xBF;
 	if (utf8_sequence_Decode(&sequence) != 0x07FF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x07FF);
 	}
 
-	sequence.point_array[0] = 0xE8;
-	sequence.point_array[1] = 0x80;
-	sequence.point_array[2] = 0x80;
+	sequence.byte_array[0] = 0xE8;
+	sequence.byte_array[1] = 0x80;
+	sequence.byte_array[2] = 0x80;
 	if (utf8_sequence_Decode(&sequence) != 0x8000){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x8000);
 	}
 
-	sequence.point_array[0] = 0xEF;
-	sequence.point_array[1] = 0xBF;
-	sequence.point_array[2] = 0xBF;
+	sequence.byte_array[0] = 0xEF;
+	sequence.byte_array[1] = 0xBF;
+	sequence.byte_array[2] = 0xBF;
 	if (utf8_sequence_Decode(&sequence) != 0xFFFF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0xFFFF);
 	}
 
-	sequence.point_array[0] = 0xF4;
-	sequence.point_array[1] = 0x80;
-	sequence.point_array[2] = 0x80;
-	sequence.point_array[3] = 0x80;
+	sequence.byte_array[0] = 0xF4;
+	sequence.byte_array[1] = 0x80;
+	sequence.byte_array[2] = 0x80;
+	sequence.byte_array[3] = 0x80;
 	if (utf8_sequence_Decode(&sequence) != 0x100000){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x100000);
 	}
 
-	sequence.point_array[0] = 0xF7;
-	sequence.point_array[1] = 0xBF;
-	sequence.point_array[2] = 0xBF;
-	sequence.point_array[3] = 0xBF;
+	sequence.byte_array[0] = 0xF7;
+	sequence.byte_array[1] = 0xBF;
+	sequence.byte_array[2] = 0xBF;
+	sequence.byte_array[3] = 0xBF;
 	if (utf8_sequence_Decode(&sequence) != 0x1FFFFF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x1FFFFF);
 	}
 
-	sequence.point_array[0] = 0xF9;
-	sequence.point_array[1] = 0x80;
-	sequence.point_array[2] = 0x80;
-	sequence.point_array[3] = 0x80;
-	sequence.point_array[4] = 0x80;
+	sequence.byte_array[0] = 0xF9;
+	sequence.byte_array[1] = 0x80;
+	sequence.byte_array[2] = 0x80;
+	sequence.byte_array[3] = 0x80;
+	sequence.byte_array[4] = 0x80;
 	if (utf8_sequence_Decode(&sequence) != 0x01000000){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x01000000);
 	}
 
-	sequence.point_array[0] = 0xFB;
-	sequence.point_array[1] = 0xBF;
-	sequence.point_array[2] = 0xBF;
-	sequence.point_array[3] = 0xBF;
-	sequence.point_array[4] = 0xBF;
+	sequence.byte_array[0] = 0xFB;
+	sequence.byte_array[1] = 0xBF;
+	sequence.byte_array[2] = 0xBF;
+	sequence.byte_array[3] = 0xBF;
+	sequence.byte_array[4] = 0xBF;
 	if (utf8_sequence_Decode(&sequence) != 0x03FFFFFF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x03FFFFFF);
 	}
 
-	sequence.point_array[0] = 0xFD;
-	sequence.point_array[1] = 0x80;
-	sequence.point_array[2] = 0x80;
-	sequence.point_array[3] = 0x80;
-	sequence.point_array[4] = 0x80;
-	sequence.point_array[5] = 0x80;
+	sequence.byte_array[0] = 0xFD;
+	sequence.byte_array[1] = 0x80;
+	sequence.byte_array[2] = 0x80;
+	sequence.byte_array[3] = 0x80;
+	sequence.byte_array[4] = 0x80;
+	sequence.byte_array[5] = 0x80;
 	if (utf8_sequence_Decode(&sequence) != 0x40000000){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x40000000);
 	}
 
-	sequence.point_array[0] = 0xFD;
-	sequence.point_array[1] = 0xBF;
-	sequence.point_array[2] = 0xBF;
-	sequence.point_array[3] = 0xBF;
-	sequence.point_array[4] = 0xBF;
-	sequence.point_array[5] = 0xBF;
+	sequence.byte_array[0] = 0xFD;
+	sequence.byte_array[1] = 0xBF;
+	sequence.byte_array[2] = 0xBF;
+	sequence.byte_array[3] = 0xBF;
+	sequence.byte_array[4] = 0xBF;
+	sequence.byte_array[5] = 0xBF;
 	if (utf8_sequence_Decode(&sequence) != 0x7FFFFFFF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x7FFFFFFF);
 	}
@@ -224,11 +224,11 @@ int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_char expecte
 	fprintf(stderr, "utf8_sequence__Test_Decode failed:\n");
 	fprintf(stderr, "\texpected:   %ld\n", expected_char);
 	fprintf(stderr, "\tdecoded to: %ld\n", actual_char);
-	fprintf(stderr, "\tsequence.point_array[0]: %X\n", sequence->point_array[0]);
-	fprintf(stderr, "\tsequence.point_array[1]: %X\n", sequence->point_array[1]);
-	fprintf(stderr, "\tsequence.point_array[2]: %X\n", sequence->point_array[2]);
-	fprintf(stderr, "\tsequence.point_array[3]: %X\n", sequence->point_array[3]);
-	fprintf(stderr, "\tsequence.point_array[4]: %X\n", sequence->point_array[4]);
+	fprintf(stderr, "\tsequence.byte_array[0]: %X\n", sequence->byte_array[0]);
+	fprintf(stderr, "\tsequence.byte_array[1]: %X\n", sequence->byte_array[1]);
+	fprintf(stderr, "\tsequence.byte_array[2]: %X\n", sequence->byte_array[2]);
+	fprintf(stderr, "\tsequence.byte_array[3]: %X\n", sequence->byte_array[3]);
+	fprintf(stderr, "\tsequence.byte_array[4]: %X\n", sequence->byte_array[4]);
 	return -1;
 }
 
@@ -239,110 +239,110 @@ int utf8_sequence__Test_Encode(void){
 	utf8_sequence sequence;
 	utf8_sequence_Init(&sequence);
 
-	sequence.point_array[0] = 0x00;
+	sequence.byte_array[0] = 0x00;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x00000000) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 0);
 		return -1;
 	}
 
-	sequence.point_array[0] = 0x7F;
+	sequence.byte_array[0] = 0x7F;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x0000007F) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 1);
 		return -2;
 	}
 
-	sequence.point_array[0] = 0xC2;
-	sequence.point_array[1] = 0x80;
+	sequence.byte_array[0] = 0xC2;
+	sequence.byte_array[1] = 0x80;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x00000080) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 2);
 		return -3;
 	}
 
-	sequence.point_array[0] = 0xCF;
-	sequence.point_array[1] = 0xBF;
+	sequence.byte_array[0] = 0xCF;
+	sequence.byte_array[1] = 0xBF;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x000003FF) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 3);
 		return -4;
 	}
 
-	sequence.point_array[0] = 0xDF;
-	sequence.point_array[1] = 0xBF;
+	sequence.byte_array[0] = 0xDF;
+	sequence.byte_array[1] = 0xBF;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x000007FF) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 4);
 		return -5;
 	}
 
-	sequence.point_array[0] = 0xE8;
-	sequence.point_array[1] = 0x80;
-	sequence.point_array[2] = 0x80;
+	sequence.byte_array[0] = 0xE8;
+	sequence.byte_array[1] = 0x80;
+	sequence.byte_array[2] = 0x80;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x00008000) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 5);
 		return -6;
 	}
 
-	sequence.point_array[0] = 0xEF;
-	sequence.point_array[1] = 0xBF;
-	sequence.point_array[2] = 0xBF;
+	sequence.byte_array[0] = 0xEF;
+	sequence.byte_array[1] = 0xBF;
+	sequence.byte_array[2] = 0xBF;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x0000FFFF) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 6);
 		return -7;
 	}
 
-	sequence.point_array[0] = 0xF4;
-	sequence.point_array[1] = 0x80;
-	sequence.point_array[2] = 0x80;
-	sequence.point_array[3] = 0x80;
+	sequence.byte_array[0] = 0xF4;
+	sequence.byte_array[1] = 0x80;
+	sequence.byte_array[2] = 0x80;
+	sequence.byte_array[3] = 0x80;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x00100000) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 7);
 		return -8;
 	}
 
-	sequence.point_array[0] = 0xF7;
-	sequence.point_array[1] = 0xBF;
-	sequence.point_array[2] = 0xBF;
-	sequence.point_array[3] = 0xBF;
+	sequence.byte_array[0] = 0xF7;
+	sequence.byte_array[1] = 0xBF;
+	sequence.byte_array[2] = 0xBF;
+	sequence.byte_array[3] = 0xBF;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x001FFFFF) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 8);
 		return -9;
 	}
 
-	sequence.point_array[0] = 0xF9;
-	sequence.point_array[1] = 0x80;
-	sequence.point_array[2] = 0x80;
-	sequence.point_array[3] = 0x80;
-	sequence.point_array[4] = 0x80;
+	sequence.byte_array[0] = 0xF9;
+	sequence.byte_array[1] = 0x80;
+	sequence.byte_array[2] = 0x80;
+	sequence.byte_array[3] = 0x80;
+	sequence.byte_array[4] = 0x80;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x01000000) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 9);
 		return -10;
 	}
 
-	sequence.point_array[0] = 0xFB;
-	sequence.point_array[1] = 0xBF;
-	sequence.point_array[2] = 0xBF;
-	sequence.point_array[3] = 0xBF;
-	sequence.point_array[4] = 0xBF;
+	sequence.byte_array[0] = 0xFB;
+	sequence.byte_array[1] = 0xBF;
+	sequence.byte_array[2] = 0xBF;
+	sequence.byte_array[3] = 0xBF;
+	sequence.byte_array[4] = 0xBF;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x03FFFFFF) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 10);
 		return -11;
 	}
 
-	sequence.point_array[0] = 0xFD;
-	sequence.point_array[1] = 0x80;
-	sequence.point_array[2] = 0x80;
-	sequence.point_array[3] = 0x80;
-	sequence.point_array[4] = 0x80;
-	sequence.point_array[5] = 0x80;
+	sequence.byte_array[0] = 0xFD;
+	sequence.byte_array[1] = 0x80;
+	sequence.byte_array[2] = 0x80;
+	sequence.byte_array[3] = 0x80;
+	sequence.byte_array[4] = 0x80;
+	sequence.byte_array[5] = 0x80;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x40000000) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 11);
 		return -12;
 	}
 
-	sequence.point_array[0] = 0xFD;
-	sequence.point_array[1] = 0xBF;
-	sequence.point_array[2] = 0xBF;
-	sequence.point_array[3] = 0xBF;
-	sequence.point_array[4] = 0xBF;
-	sequence.point_array[5] = 0xBF;
+	sequence.byte_array[0] = 0xFD;
+	sequence.byte_array[1] = 0xBF;
+	sequence.byte_array[2] = 0xBF;
+	sequence.byte_array[3] = 0xBF;
+	sequence.byte_array[4] = 0xBF;
+	sequence.byte_array[5] = 0xBF;
 	if (utf8_sequence__Unit_Test_Encode(&sequence, 0x7FFFFFFF) < 0){
 		fprintf(stderr, "unit test[%d] failed\n", 12);
 		return -13;
@@ -364,10 +364,10 @@ int utf8_sequence__Unit_Test_Encode(utf8_sequence * expected_sequence, utf8_char
 	}
 
 	for (i = 0; i < 6; i++){
-		if (actual_sequence.point_array[i] != expected_sequence->point_array[i]){
+		if (actual_sequence.byte_array[i] != expected_sequence->byte_array[i]){
 			fprintf(stderr, "sequence mismatch at [%d]:\n", i);
-			fprintf(stderr, "expected: %X\n", expected_sequence->point_array[i]);
-			fprintf(stderr, "actual:   %X\n", actual_sequence.point_array[i]);
+			fprintf(stderr, "expected: %X\n", expected_sequence->byte_array[i]);
+			fprintf(stderr, "actual:   %X\n", actual_sequence.byte_array[i]);
 			return -2;
 		}
 	}

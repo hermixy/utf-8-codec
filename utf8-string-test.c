@@ -62,13 +62,13 @@ int utf8_string__Test_Init(void){
 		return -1;
 	}
 
-	if (string.point_array != NULL){
-		fprintf(stderr, "string.point_array should be NULL after initialization\n");
+	if (string.byte_array != NULL){
+		fprintf(stderr, "string.byte_array should be NULL after initialization\n");
 		return -2;
 	}
 
-	if (string.point_count != 0){
-		fprintf(stderr, "string.point_count should be 0 after initialization\n");
+	if (string.byte_count != 0){
+		fprintf(stderr, "string.byte_count should be 0 after initialization\n");
 		return -3;
 	}
 
@@ -84,22 +84,22 @@ int utf8_string__Test_Done(void){
 		return -1;
 	}
 
-	string.point_array = malloc(sizeof(utf8_point));
-	if (!string.point_array){
-		fprintf(stderr, "failed to malloc point for test\n");
+	string.byte_array = malloc(sizeof(utf8_byte));
+	if (!string.byte_array){
+		fprintf(stderr, "failed to malloc byte for test\n");
 		return -2;
 	}
-	string.point_count = 1;
+	string.byte_count = 1;
 
 	utf8_string_Done(&string);
 
-	if (string.point_array != NULL){
-		fprintf(stderr, "point_array is not NULL after utf8_string_Done\n");
+	if (string.byte_array != NULL){
+		fprintf(stderr, "byte_array is not NULL after utf8_string_Done\n");
 		return -3;
 	}
 
-	if (string.point_count != 0){
-		fprintf(stderr, "point_count is not 0 after utf8_string_Done\n");
+	if (string.byte_count != 0){
+		fprintf(stderr, "byte_count is not 0 after utf8_string_Done\n");
 		return -4;
 	}
 
@@ -108,22 +108,22 @@ int utf8_string__Test_Done(void){
 
 int utf8_string__Test_Get_Point(void){
 
-	utf8_point point_array[3];
+	utf8_byte byte_array[3];
 
 	utf8_string string;
 
 	int i = 0;
 
-	point_array[0] = 0x01;
-	point_array[1] = 0x03;
-	point_array[2] = 0x05;
+	byte_array[0] = 0x01;
+	byte_array[1] = 0x03;
+	byte_array[2] = 0x05;
 
-	string.point_array = point_array;
-	string.point_count = 3;
+	string.byte_array = byte_array;
+	string.byte_count = 3;
 
 	for (i = 0; i < 3; i++){
-		if (utf8_string_Get_Point(&string, i) != point_array[i]){
-			fprintf(stderr, "point[%d] value is different\n", i);
+		if (utf8_string_Get_Point(&string, i) != byte_array[i]){
+			fprintf(stderr, "byte[%d] value is different\n", i);
 			return -1;
 		}
 	}
@@ -133,22 +133,22 @@ int utf8_string__Test_Get_Point(void){
 
 int utf8_string__Test_Get_Point_Span(void){
 
-	utf8_point point_array[3];
+	utf8_byte byte_array[3];
 
 	utf8_string string;
 
 	int i = 0;
 
-	point_array[0] = 0x01;
-	point_array[1] = 0xC0;
-	point_array[2] = 0xFE;
+	byte_array[0] = 0x01;
+	byte_array[1] = 0xC0;
+	byte_array[2] = 0xFE;
 
-	string.point_array = point_array;
-	string.point_count = 3;
+	string.byte_array = byte_array;
+	string.byte_count = 3;
 
 	for (i = 0; i < 3; i++){
-		if (utf8_string_Get_Point_Span(&string, i) != utf8_point_Get_Span(point_array[i])){
-			fprintf(stderr, "point[%d] span is different\n", i);
+		if (utf8_string_Get_Point_Span(&string, i) != utf8_byte_Get_Span(byte_array[i])){
+			fprintf(stderr, "byte[%d] span is different\n", i);
 			return -1;
 		}
 	}

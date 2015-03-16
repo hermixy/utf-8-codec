@@ -15,16 +15,16 @@
  *    along with Utf8String.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UTF8_STRING_UTF8_POINT_H
-#define UTF8_STRING_UTF8_POINT_H
+#ifndef UTF8_STRING_UTF8_BYTE_H
+#define UTF8_STRING_UTF8_BYTE_H
 
-typedef unsigned char utf8_point;
+typedef unsigned char utf8_byte;
 
-int utf8_point_Get_Span(utf8_point point);
+int utf8_byte_Get_Span(utf8_byte byte);
 
-int utf8_point_Get_Data(utf8_point point);
+int utf8_byte_Get_Data(utf8_byte byte);
 
-int utf8_point_Get_Data_Bit_Count(utf8_point point);
+int utf8_byte_Get_Data_Bit_Count(utf8_byte byte);
 
-#endif /* UTF8_STRING_UTF8_POINT_H */
+#endif /* UTF8_STRING_UTF8_BYTE_H */
 

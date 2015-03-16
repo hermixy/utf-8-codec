@@ -19,13 +19,13 @@
 #define UTF8_SEQUENCE_H
 
 #include "utf8-char.h"
-#include "utf8-point.h"
+#include "utf8-byte.h"
 
 #define UTF8_SEQUENCE_POINT_MAX 6
 
 typedef struct utf8_sequence {
-	utf8_point point_array[UTF8_SEQUENCE_POINT_MAX];
-	int point_count;
+	utf8_byte byte_array[UTF8_SEQUENCE_POINT_MAX];
+	int byte_count;
 } utf8_sequence;
 
 int utf8_sequence_Init(utf8_sequence * sequence);

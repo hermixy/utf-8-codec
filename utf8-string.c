@@ -20,30 +20,30 @@
 #include <stdlib.h>
 
 int utf8_string_Init(utf8_string * str){
-	str->point_array = NULL;
-	str->point_count = 0;
+	str->byte_array = NULL;
+	str->byte_count = 0;
 	return 0;
 }
 
 void utf8_string_Done(utf8_string * str){
 	if (str){
-		free(str->point_array);
-		str->point_array = NULL;
-		str->point_count = 0;
+		free(str->byte_array);
+		str->byte_array = NULL;
+		str->byte_count = 0;
 	}
 }
 
-utf8_point utf8_string_Get_Point(utf8_string * str, int i){
-	return str->point_array[i];
+utf8_byte utf8_string_Get_Point(utf8_string * str, int i){
+	return str->byte_array[i];
 }
 
 int utf8_string_Get_Point_Span(utf8_string * str, int i){
 
-	int point_span = utf8_point_Get_Span(str->point_array[i]);
-	if (point_span < 0){
+	int byte_span = utf8_byte_Get_Span(str->byte_array[i]);
+	if (byte_span < 0){
 		return -1;
 	}
 
-	return point_span;
+	return byte_span;
 }
 

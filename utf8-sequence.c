@@ -30,31 +30,31 @@ void utf8_sequence_Done(utf8_sequence * sequence){
 
 utf8_char utf8_sequence_Decode(utf8_sequence * sequence){
 
-	int point_index = 0;
+	int byte_index = 0;
 
 	utf8_char c = 0;
 
-	int point_count = utf8_point_Get_Span(sequence->point_array[0]);
-	if (point_count < 0){
+	int byte_count = utf8_byte_Get_Span(sequence->byte_array[0]);
+	if (byte_count < 0){
 		return -1;
 	}
 
-	for (point_index = 0; point_index < point_count; point_index++){
+	for (byte_index = 0; byte_index < byte_count; byte_index++){
 
-		int point_bit_count = 0;
+		int byte_bit_count = 0;
 
-		int point_data = utf8_point_Get_Data(sequence->point_array[point_index]);
-		if (point_data < 0){
+		int byte_data = utf8_byte_Get_Data(sequence->byte_array[byte_index]);
+		if (byte_data < 0){
 			return -1;
 		}
 
-		point_bit_count = utf8_point_Get_Data_Bit_Count(sequence->point_array[point_index]);
-		if (point_bit_count < 0){
+		byte_bit_count = utf8_byte_Get_Data_Bit_Count(sequence->byte_array[byte_index]);
+		if (byte_bit_count < 0){
 			return -1;
 		}
 
-		c <<= point_bit_count;
-		c += point_data;
+		c <<= byte_bit_count;
+		c += byte_data;
 	}
 
 	return c;
@@ -66,47 +66,47 @@ int utf8_sequence_Encode(utf8_sequence * sequence, utf8_char c){
 
 	if (c <= 0x7F){
 
-		sequence->point_array[0] = (utf8_point) (c & 0x7F);
+		sequence->byte_array[0] = (utf8_byte) (c & 0x7F);
 		return 1;
 
 	} else if (c <= 0x07FF){
 
-		sequence->point_array[0] = (utf8_point) (((c >> 0x06) & 0x1F) | 0xC0);
-		sequence->point_array[1] = (utf8_point) (((c >> 0x00) & 0x3F) | 0x80);
+		sequence->byte_array[0] = (utf8_byte) (((c >> 0x06) & 0x1F) | 0xC0);
+		sequence->byte_array[1] = (utf8_byte) (((c >> 0x00) & 0x3F) | 0x80);
 		return 2;
 
 	} else if (c <= 0xFFFF){
 
-		sequence->point_array[0] = (utf8_point) (((c >> 0x0C) & 0x0F) | 0xE0);
-		sequence->point_array[1] = (utf8_point) (((c >> 0x06) & 0x3F) | 0x80);
-		sequence->point_array[2] = (utf8_point) (((c >> 0x00) & 0x3F) | 0x80);
+		sequence->byte_array[0] = (utf8_byte) (((c >> 0x0C) & 0x0F) | 0xE0);
+		sequence->byte_array[1] = (utf8_byte) (((c >> 0x06) & 0x3F) | 0x80);
+		sequence->byte_array[2] = (utf8_byte) (((c >> 0x00) & 0x3F) | 0x80);
 		return 3;
 
 	} else if (c <= 0x1FFFFF){
 
-		sequence->point_array[0] = (utf8_point) (((c >> 0x12) & 0x07) | 0xF0);
-		sequence->point_array[1] = (utf8_point) (((c >> 0x0C) & 0x3F) | 0x80);
-		sequence->point_array[2] = (utf8_point) (((c >> 0x06) & 0x3F) | 0x80);
-		sequence->point_array[3] = (utf8_point) (((c >> 0x00) & 0x3F) | 0x80);
+		sequence->byte_array[0] = (utf8_byte) (((c >> 0x12) & 0x07) | 0xF0);
+		sequence->byte_array[1] = (utf8_byte) (((c >> 0x0C) & 0x3F) | 0x80);
+		sequence->byte_array[2] = (utf8_byte) (((c >> 0x06) & 0x3F) | 0x80);
+		sequence->byte_array[3] = (utf8_byte) (((c >> 0x00) & 0x3F) | 0x80);
 		return 4;
 
 	} else if (c <= 0x3FFFFFF){
 
-		sequence->point_array[0] = (utf8_point) (((c >> 0x18) & 0x03) | 0xF8);
-		sequence->point_array[1] = (utf8_point) (((c >> 0x12) & 0x3F) | 0x80);
-		sequence->point_array[2] = (utf8_point) (((c >> 0x0C) & 0x3F) | 0x80);
-		sequence->point_array[3] = (utf8_point) (((c >> 0x06) & 0x3F) | 0x80);
-		sequence->point_array[4] = (utf8_point) (((c >> 0x00) & 0x3F) | 0x80);
+		sequence->byte_array[0] = (utf8_byte) (((c >> 0x18) & 0x03) | 0xF8);
+		sequence->byte_array[1] = (utf8_byte) (((c >> 0x12) & 0x3F) | 0x80);
+		sequence->byte_array[2] = (utf8_byte) (((c >> 0x0C) & 0x3F) | 0x80);
+		sequence->byte_array[3] = (utf8_byte) (((c >> 0x06) & 0x3F) | 0x80);
+		sequence->byte_array[4] = (utf8_byte) (((c >> 0x00) & 0x3F) | 0x80);
 		return 5;
 
 	} else if (c <= 0x7FFFFFFF){
 
-		sequence->point_array[0] = (utf8_point) (((c >> 0x1E) & 0x01) | 0xFC);
-		sequence->point_array[1] = (utf8_point) (((c >> 0x18) & 0x3F) | 0x80);
-		sequence->point_array[2] = (utf8_point) (((c >> 0x12) & 0x3F) | 0x80);
-		sequence->point_array[3] = (utf8_point) (((c >> 0x0C) & 0x3F) | 0x80);
-		sequence->point_array[4] = (utf8_point) (((c >> 0x06) & 0x3F) | 0x80);
-		sequence->point_array[5] = (utf8_point) (((c >> 0x00) & 0x3F) | 0x80);
+		sequence->byte_array[0] = (utf8_byte) (((c >> 0x1E) & 0x01) | 0xFC);
+		sequence->byte_array[1] = (utf8_byte) (((c >> 0x18) & 0x3F) | 0x80);
+		sequence->byte_array[2] = (utf8_byte) (((c >> 0x12) & 0x3F) | 0x80);
+		sequence->byte_array[3] = (utf8_byte) (((c >> 0x0C) & 0x3F) | 0x80);
+		sequence->byte_array[4] = (utf8_byte) (((c >> 0x06) & 0x3F) | 0x80);
+		sequence->byte_array[5] = (utf8_byte) (((c >> 0x00) & 0x3F) | 0x80);
 		return 6;
 	}
 
