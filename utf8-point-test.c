@@ -222,13 +222,13 @@ int utf8_point__Test_Get_Data_Bit_Count(void){
 
 		int actual_count = utf8_point_Get_Data_Bit_Count(points[i]);
 		if (actual_count < 0){
-			fprintf(stderr, "on point[%d]\n", i);
+			fprintf(stderr, "on point[%d]:\n", i);
 			fprintf(stderr, "\tutf8_point_Get_Data_Bit_Count failed\n");
 			return -1;
 		}
 
 		if (actual_count != expected_counts[i]){
-			fprintf(stderr, "on point[%d]\n", i);
+			fprintf(stderr, "on point[%d]:\n", i);
 			fprintf(stderr, "\texpected count: %d\n", expected_counts[i]);
 			fprintf(stderr, "\tactual count:   %d\n", actual_count);
 			return -2;
@@ -238,8 +238,73 @@ int utf8_point__Test_Get_Data_Bit_Count(void){
 	return 0;
 }
 
+int utf8_point__Test_Get_Data__Fail(utf8_point test_point, int data_expected);
+
 int utf8_point__Test_Get_Data(void){
 
+	if (utf8_point_Get_Data(0x00) != 0x00){
+		return utf8_point__Test_Get_Data__Fail(0x00, 0x00);
+	}
+
+	if (utf8_point_Get_Data(0x7F) != 0x7F){
+		return utf8_point__Test_Get_Data__Fail(0x7F, 0x7F);
+	}
+
+	if (utf8_point_Get_Data(0x80) != 0x00){
+		return utf8_point__Test_Get_Data__Fail(0x80, 0x00);
+	}
+
+	if (utf8_point_Get_Data(0xBF) != 0x3F){
+		return utf8_point__Test_Get_Data__Fail(0xBF, 0x3F);
+	}
+
+	if (utf8_point_Get_Data(0xC0) != 0x00){
+		return utf8_point__Test_Get_Data__Fail(0xC0, 0x00);
+	}
+
+	if (utf8_point_Get_Data(0xDF) != 0x1F){
+		return utf8_point__Test_Get_Data__Fail(0xDF, 0x1F);
+	}
+
+	if (utf8_point_Get_Data(0xE0) != 0x00){
+		return utf8_point__Test_Get_Data__Fail(0xE0, 0x00);
+	}
+
+	if (utf8_point_Get_Data(0xEF) != 0x0F){
+		return utf8_point__Test_Get_Data__Fail(0xEF, 0x0F);
+	}
+
+	if (utf8_point_Get_Data(0xF0) != 0x00){
+		return utf8_point__Test_Get_Data__Fail(0xF0, 0x00);
+	}
+
+	if (utf8_point_Get_Data(0xF7) != 0x07){
+		return utf8_point__Test_Get_Data__Fail(0xF7, 0x07);
+	}
+
+	if (utf8_point_Get_Data(0xF8) != 0x00){
+		return utf8_point__Test_Get_Data__Fail(0xF8, 0x00);
+	}
+
+	if (utf8_point_Get_Data(0xFB) != 0x03){
+		return utf8_point__Test_Get_Data__Fail(0xFB, 0x03);
+	}
+
+	if (utf8_point_Get_Data(0xFC) != 0x00){
+		return utf8_point__Test_Get_Data__Fail(0xFC, 0x00);
+	}
+
+	if (utf8_point_Get_Data(0xFD) != 0x01){
+		return utf8_point__Test_Get_Data__Fail(0xFD, 0x01);
+	}
+
 	return 0;
+}
+
+int utf8_point__Test_Get_Data__Fail(utf8_point test_point, int data_expected){
+	fprintf(stderr, "utf8_point__Test_Get_Data failed on point '%X':\n", test_point);
+	fprintf(stderr, "expected data: %X\n", data_expected);
+	fprintf(stderr, "actual data:   %X\n", utf8_point_Get_Data(test_point));
+	return -1;
 }
 
