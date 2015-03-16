@@ -19,6 +19,8 @@
 #define UTF8_STRING_UTF8_STRING_H
 
 #include "utf8-byte.h"
+#include "utf8-point.h"
+#include "utf8-sequence.h"
 
 typedef struct utf8_string {
 	utf8_byte * byte_array;
@@ -32,6 +34,10 @@ void utf8_string_Done(utf8_string * str);
 utf8_byte utf8_string_Get_Byte(utf8_string * str, int i);
 
 int utf8_string_Get_Byte_Span(utf8_string * str, int i);
+
+utf8_point utf8_string_Get_Point(utf8_string * str, int i);
+
+int utf8_string_Get_Sequence(utf8_string * str, int i, utf8_sequence * sequence);
 
 #endif /* UTF8_STRING_UTF8_STRING_H */
 

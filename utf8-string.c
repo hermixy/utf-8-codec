@@ -47,3 +47,51 @@ int utf8_string_Get_Byte_Span(utf8_string * str, int i){
 	return byte_span;
 }
 
+int utf8_string_Get_Sequence(utf8_string * str, int i_point_req, utf8_sequence * sequence){
+
+	int i_byte = 0;
+	int i_point = 0;
+
+	int byte_span = 0;
+
+	for (;;){
+
+		if (i_point == i_point_req){
+			break;
+		}
+
+		byte_span = utf8_byte_Get_Span(str->byte_array[i_byte]);
+		if (byte_span){
+			return -1;
+		}
+
+		i_byte += byte_span;
+
+		if (i_byte >= str->byte_count){
+			break;
+		}
+
+		i_point++;
+	}
+
+	if (i_byte >= str->byte_count){
+		return -1;
+	}
+
+	byte_span = utf8_byte_Get_Span(str->byte_array[i_byte]);
+	if (byte_span < 0){
+		return -3;
+	}
+
+	for (;;){
+
+		sequence->byte_array[byte_span - 1] = str->byte_array[i_byte + (byte_span - 1)];
+
+		if (--byte_span <= 0){
+			break;
+		}
+	}
+
+	return 0;
+}
+
