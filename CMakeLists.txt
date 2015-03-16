@@ -12,6 +12,7 @@ elseif (MSVC)
 endif (CMAKE_COMPILER_IS_GNUCC)
 
 add_library("utf8-string"
+	"utf8-closed-intervals.c"
 	"utf8-point.c"
 	"utf8-sequence.c"
 	"utf8-string.c")
