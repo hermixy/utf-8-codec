@@ -24,9 +24,9 @@ int utf8_sequence__Test_Init(void);
 
 int utf8_sequence__Test_Done(void);
 
-int utf8_sequence__Test_Encode(void);
-
 int utf8_sequence__Test_Decode(void);
+
+int utf8_sequence__Test_Encode(void);
 
 int main(void){
 
@@ -40,13 +40,13 @@ int main(void){
 		return EXIT_FAILURE;
 	}
 
-	if (utf8_sequence__Test_Encode() < 0){
-		fprintf(stderr, "Encode test failed\n");
+	if (utf8_sequence__Test_Decode() < 0){
+		fprintf(stderr, "Decode test failed\n");
 		return EXIT_FAILURE;
 	}
 
-	if (utf8_sequence__Test_Decode() < 0){
-		fprintf(stderr, "Decode test failed\n");
+	if (utf8_sequence__Test_Encode() < 0){
+		fprintf(stderr, "Encode test failed\n");
 		return EXIT_FAILURE;
 	}
 
@@ -111,11 +111,48 @@ int utf8_sequence__Test_Done(void){
 	return 0;
 }
 
-int utf8_sequence__Test_Encode(void){
+int utf8_sequence__Test_Decode(void){
+
+	int i = 0;
+
+	utf8_sequence test_sequences[4];
+	utf8_char expected_chars[4];
+
+	test_sequences[0].point_array[0] = 0x00;
+	expected_chars[0] = 0x00;
+
+	test_sequences[1].point_array[0] = 0x7F;
+	expected_chars[1] = 0x7F;
+
+	test_sequences[2].point_array[0] = 0xC2;
+	test_sequences[2].point_array[1] = 0x00;
+	expected_chars[2] = 0x80;
+
+	test_sequences[3].point_array[0] = 0xC2;
+	test_sequences[3].point_array[1] = 0x07;
+	expected_chars[3] = 0x87;
+
+
+	for (i = 0; i < 4; i++){
+
+		utf8_char test_c = utf8_sequence_Decode(&test_sequences[i]);
+
+		if (test_c < 0){
+			fprintf(stderr, "failed to decode sequence[%d]\n", i);
+			return -1;
+		}
+
+		if (test_c != expected_chars[i]){
+			fprintf(stderr, "sequence[%d] decoded to %lX\n", i, test_c);
+			fprintf(stderr, "but should have decoded to %lX\n", expected_chars[i]);
+			return -2;
+		}
+	}
+
 	return 0;
 }
 
-int utf8_sequence__Test_Decode(void){
+int utf8_sequence__Test_Encode(void){
 	return 0;
 }
 
