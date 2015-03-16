@@ -22,10 +22,24 @@
 
 int utf8_point__Test_Get_Span(void);
 
+int utf8_point__Test_Get_Data_Bit_Count(void);
+
+int utf8_point__Test_Get_Data(void);
+
 int main(void){
 
 	if (utf8_point__Test_Get_Span() < 0){
 		fprintf(stderr, "Get_Span test failed\n");
+		return EXIT_FAILURE;
+	}
+
+	if (utf8_point__Test_Get_Data_Bit_Count() < 0){
+		fprintf(stderr, "Get_Data_Bit_Count test failed\n");
+		return EXIT_FAILURE;
+	}
+
+	if (utf8_point__Test_Get_Data() < 0){
+		fprintf(stderr, "Get_Data test failed\n");
 		return EXIT_FAILURE;
 	}
 
@@ -148,6 +162,83 @@ int utf8_point__Test_Get_Span(void){
 		fprintf(stderr, "point span of 0xFD should be 6\n");
 		return -8;
 	}
+
+	return 0;
+}
+
+int utf8_point__Test_Get_Data_Bit_Count(void){
+
+	utf8_point points[14];
+
+	int expected_counts[14];
+
+	int test_count = 14;
+
+	int i = 0;
+
+	points[0] = 0x00;
+	expected_counts[0] = 7;
+
+	points[1] = 0x7F;
+	expected_counts[1] = 7;
+
+	points[2] = 0x80;
+	expected_counts[2] = 6;
+
+	points[3] = 0xBF;
+	expected_counts[3] = 6;
+
+	points[4] = 0xC0;
+	expected_counts[4] = 5;
+
+	points[5] = 0xDF;
+	expected_counts[5] = 5;
+
+	points[6] = 0xE0;
+	expected_counts[6] = 4;
+
+	points[7] = 0xEF;
+	expected_counts[7] = 4;
+
+	points[8] = 0xF0;
+	expected_counts[8] = 3;
+
+	points[9] = 0xF7;
+	expected_counts[9] = 3;
+
+	points[10] = 0xF8;
+	expected_counts[10] = 2;
+
+	points[11] = 0xFB;
+	expected_counts[11] = 2;
+
+	points[12] = 0xFC;
+	expected_counts[12] = 1;
+
+	points[13] = 0xFD;
+	expected_counts[13] = 1;
+
+	for (i = 0; i < test_count; i++){
+
+		int actual_count = utf8_point_Get_Data_Bit_Count(points[i]);
+		if (actual_count < 0){
+			fprintf(stderr, "on point[%d]\n", i);
+			fprintf(stderr, "\tutf8_point_Get_Data_Bit_Count failed\n");
+			return -1;
+		}
+
+		if (actual_count != expected_counts[i]){
+			fprintf(stderr, "on point[%d]\n", i);
+			fprintf(stderr, "\texpected count: %d\n", expected_counts[i]);
+			fprintf(stderr, "\tactual count:   %d\n", actual_count);
+			return -2;
+		}
+	}
+
+	return 0;
+}
+
+int utf8_point__Test_Get_Data(void){
 
 	return 0;
 }
