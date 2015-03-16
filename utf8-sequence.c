@@ -39,10 +39,6 @@ utf8_char utf8_sequence_Decode(utf8_sequence * sequence){
 		return -1;
 	}
 
-	/* 1110 xxxx 10xx xxxx 10xx xxxx */
-	/* 1110 1000 1000 0000 1000 0000 */
-	/*      1000   00 0000   00 0000 */
-
 	for (point_index = 0; point_index < point_count; point_index++){
 
 		int point_bit_count = 0;
