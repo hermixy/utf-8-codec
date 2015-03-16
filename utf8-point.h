@@ -15,10 +15,10 @@
  *    along with Utf8String.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UTF8_STRING_UTF8_CHAR_H
-#define UTF8_STRING_UTF8_CHAR_H
+#ifndef UTF8_STRING_UTF8_POINT_H
+#define UTF8_STRING_UTF8_POINT_H
 
-typedef signed long int utf8_char;
+typedef signed long int utf8_point;
 
-#endif /* UTF8_STRING_UTF8_CHAR_H */
+#endif /* UTF8_STRING_UTF8_POINT_H */
 

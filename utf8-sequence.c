@@ -28,11 +28,11 @@ void utf8_sequence_Done(utf8_sequence * sequence){
 	memset(sequence, 0, sizeof(*sequence));
 }
 
-utf8_char utf8_sequence_Decode(utf8_sequence * sequence){
+utf8_point utf8_sequence_Decode(utf8_sequence * sequence){
 
 	int byte_index = 0;
 
-	utf8_char c = 0;
+	utf8_point c = 0;
 
 	int byte_count = utf8_byte_Get_Span(sequence->byte_array[0]);
 	if (byte_count < 0){
@@ -60,7 +60,7 @@ utf8_char utf8_sequence_Decode(utf8_sequence * sequence){
 	return c;
 }
 
-int utf8_sequence_Encode(utf8_sequence * sequence, utf8_char c){
+int utf8_sequence_Encode(utf8_sequence * sequence, utf8_point c){
 
 	memset(sequence, 0, sizeof(*sequence));
 

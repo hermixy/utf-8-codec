@@ -111,7 +111,7 @@ int utf8_sequence__Test_Done(void){
 	return 0;
 }
 
-int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_char expected_char);
+int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_point expected_char);
 
 int utf8_sequence__Test_Decode(void){
 
@@ -217,9 +217,9 @@ int utf8_sequence__Test_Decode(void){
 	return 0;
 }
 
-int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_char expected_char){
+int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_point expected_char){
 
-	utf8_char actual_char = utf8_sequence_Decode(sequence);
+	utf8_point actual_char = utf8_sequence_Decode(sequence);
 
 	fprintf(stderr, "utf8_sequence__Test_Decode failed:\n");
 	fprintf(stderr, "\texpected:   %ld\n", expected_char);
@@ -232,7 +232,7 @@ int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_char expecte
 	return -1;
 }
 
-int utf8_sequence__Unit_Test_Encode(utf8_sequence * expected_sequence, utf8_char c);
+int utf8_sequence__Unit_Test_Encode(utf8_sequence * expected_sequence, utf8_point c);
 
 int utf8_sequence__Test_Encode(void){
 
@@ -351,7 +351,7 @@ int utf8_sequence__Test_Encode(void){
 	return 0;
 }
 
-int utf8_sequence__Unit_Test_Encode(utf8_sequence * expected_sequence, utf8_char c){
+int utf8_sequence__Unit_Test_Encode(utf8_sequence * expected_sequence, utf8_point c){
 
 	int i = 0;
 
