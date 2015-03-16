@@ -32,14 +32,16 @@ utf8_char utf8_sequence_Decode(utf8_sequence * sequence){
 
 	int point_index = 0;
 
-	int bit_index = 0;
-
 	utf8_char c = 0;
 
 	int point_count = utf8_point_Get_Span(sequence->point_array[0]);
 	if (point_count < 0){
 		return -1;
 	}
+
+	/* 1110 xxxx 10xx xxxx 10xx xxxx */
+	/* 1110 1000 1000 0000 1000 0000 */
+	/*      1000   00 0000   00 0000 */
 
 	for (point_index = 0; point_index < point_count; point_index++){
 
@@ -50,14 +52,13 @@ utf8_char utf8_sequence_Decode(utf8_sequence * sequence){
 			return -1;
 		}
 
-		c = point_data + (c << (bit_index + 1));
-
 		point_bit_count = utf8_point_Get_Data_Bit_Count(sequence->point_array[point_index]);
 		if (point_bit_count < 0){
 			return -1;
 		}
 
-		bit_index += point_bit_count;
+		c <<= point_bit_count;
+		c  += point_data;
 	}
 
 	return c;
