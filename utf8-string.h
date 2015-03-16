@@ -29,9 +29,9 @@ int utf8_string_Init(utf8_string * str);
 
 void utf8_string_Done(utf8_string * str);
 
-utf8_byte utf8_string_Get_Point(utf8_string * str, int i);
+utf8_byte utf8_string_Get_Byte(utf8_string * str, int i);
 
-int utf8_string_Get_Point_Span(utf8_string * str, int i);
+int utf8_string_Get_Byte_Span(utf8_string * str, int i);
 
-#endif /* UTF8_STRING_UTF8_POINT_H */
+#endif /* UTF8_STRING_UTF8_STRING_H */
 

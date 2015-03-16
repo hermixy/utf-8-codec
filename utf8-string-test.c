@@ -24,9 +24,9 @@ int utf8_string__Test_Init(void);
 
 int utf8_string__Test_Done(void);
 
-int utf8_string__Test_Get_Point(void);
+int utf8_string__Test_Get_Byte(void);
 
-int utf8_string__Test_Get_Point_Span(void);
+int utf8_string__Test_Get_Byte_Span(void);
 
 int main(void){
 
@@ -40,13 +40,13 @@ int main(void){
 		return EXIT_FAILURE;
 	}
 
-	if (utf8_string__Test_Get_Point() != 0){
-		fprintf(stderr, "Get_Point test failed\n");
+	if (utf8_string__Test_Get_Byte() != 0){
+		fprintf(stderr, "Get_Byte test failed\n");
 		return EXIT_FAILURE;
 	}
 
-	if (utf8_string__Test_Get_Point_Span() != 0){
-		fprintf(stderr, "Get_Point_Span test failed\n");
+	if (utf8_string__Test_Get_Byte_Span() != 0){
+		fprintf(stderr, "Get_Byte_Span test failed\n");
 		return EXIT_FAILURE;
 	}
 
@@ -106,7 +106,7 @@ int utf8_string__Test_Done(void){
 	return 0;
 }
 
-int utf8_string__Test_Get_Point(void){
+int utf8_string__Test_Get_Byte(void){
 
 	utf8_byte byte_array[3];
 
@@ -122,7 +122,7 @@ int utf8_string__Test_Get_Point(void){
 	string.byte_count = 3;
 
 	for (i = 0; i < 3; i++){
-		if (utf8_string_Get_Point(&string, i) != byte_array[i]){
+		if (utf8_string_Get_Byte(&string, i) != byte_array[i]){
 			fprintf(stderr, "byte[%d] value is different\n", i);
 			return -1;
 		}
@@ -131,7 +131,7 @@ int utf8_string__Test_Get_Point(void){
 	return 0;
 }
 
-int utf8_string__Test_Get_Point_Span(void){
+int utf8_string__Test_Get_Byte_Span(void){
 
 	utf8_byte byte_array[3];
 
@@ -147,7 +147,7 @@ int utf8_string__Test_Get_Point_Span(void){
 	string.byte_count = 3;
 
 	for (i = 0; i < 3; i++){
-		if (utf8_string_Get_Point_Span(&string, i) != utf8_byte_Get_Span(byte_array[i])){
+		if (utf8_string_Get_Byte_Span(&string, i) != utf8_byte_Get_Span(byte_array[i])){
 			fprintf(stderr, "byte[%d] span is different\n", i);
 			return -1;
 		}

@@ -33,11 +33,11 @@ void utf8_string_Done(utf8_string * str){
 	}
 }
 
-utf8_byte utf8_string_Get_Point(utf8_string * str, int i){
+utf8_byte utf8_string_Get_Byte(utf8_string * str, int i){
 	return str->byte_array[i];
 }
 
-int utf8_string_Get_Point_Span(utf8_string * str, int i){
+int utf8_string_Get_Byte_Span(utf8_string * str, int i){
 
 	int byte_span = utf8_byte_Get_Span(str->byte_array[i]);
 	if (byte_span < 0){
