@@ -129,7 +129,7 @@ int utf8_sequence__Test_Decode(void){
 	}
 
 	sequence.point_array[0] = 0xC2;
-	sequence.point_array[1] = 0x00;
+	sequence.point_array[1] = 0x80;
 	if (utf8_sequence_Decode(&sequence) != 0x80){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x80);
 	}
