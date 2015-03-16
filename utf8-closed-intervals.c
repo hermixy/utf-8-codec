@@ -1,4 +1,3 @@
-
 /*
  *    This file is part of Utf8String.
  *
