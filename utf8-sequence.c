@@ -45,16 +45,16 @@ utf8_char utf8_sequence_Decode(utf8_sequence * sequence){
 
 		int point_bit_count = 0;
 
-		int point_data = utf8_point_Get_Data(sequence->point_array[0]);
+		int point_data = utf8_point_Get_Data(sequence->point_array[point_index]);
 		if (point_data < 0){
-			return -2;
+			return -1;
 		}
 
-		c += point_data << bit_index;
+		c = point_data + (c << (bit_index + 1));
 
-		point_bit_count = utf8_point_Get_Data_Bit_Count(sequence->point_array[0]);
+		point_bit_count = utf8_point_Get_Data_Bit_Count(sequence->point_array[point_index]);
 		if (point_bit_count < 0){
-			return -3;
+			return -1;
 		}
 
 		bit_index += point_bit_count;
