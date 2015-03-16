@@ -22,5 +22,9 @@ typedef unsigned char utf8_point;
 
 int utf8_point_Get_Span(utf8_point point);
 
+int utf8_point_Get_Data(utf8_point point);
+
+int utf8_point_Get_Data_Bit_Count(utf8_point point);
+
 #endif /* UTF8_STRING_UTF8_POINT_H */
 
