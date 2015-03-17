@@ -67,7 +67,7 @@ int utf8_string_Get_Sequence(utf8_string * str, int i_point_req, utf8_sequence *
 		}
 
 		byte_span = utf8_byte_Get_Span(str->byte_array[i_byte]);
-		if (byte_span){
+		if (byte_span < 0){
 			return -1;
 		}
 
