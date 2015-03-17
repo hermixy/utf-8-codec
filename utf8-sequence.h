@@ -25,7 +25,6 @@
 
 typedef struct utf8_sequence {
 	utf8_byte byte_array[UTF8_SEQUENCE_POINT_MAX];
-	int byte_count;
 } utf8_sequence;
 
 int utf8_sequence_Init(utf8_sequence * sequence);

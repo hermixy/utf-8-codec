@@ -64,11 +64,6 @@ int utf8_sequence__Test_Init(void){
 		return -1;
 	}
 
-	if (sequence.byte_count != 0){
-		fprintf(stderr, "byte count != 0 after initialization\n");
-		return -2;
-	}
-
 	for (i = 0; i < UTF8_SEQUENCE_POINT_MAX; i++){
 		if (sequence.byte_array[i] != 0){
 			fprintf(stderr, "byte[%d] != 0\n", i);
@@ -95,11 +90,6 @@ int utf8_sequence__Test_Done(void){
 	}
 
 	utf8_sequence_Done(&sequence);
-
-	if (sequence.byte_count != 0){
-		fprintf(stderr, "byte count != 0 after utf8_sequence_Done\n");
-		return -2;
-	}
 
 	for (i = 0; i < UTF8_SEQUENCE_POINT_MAX; i++){
 		if (sequence.byte_array[i] != 0){
