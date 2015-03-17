@@ -28,27 +28,44 @@ int utf8_string__Test_Get_Byte(void);
 
 int utf8_string__Test_Get_Byte_Span(void);
 
+int utf8_string__Test_Get_Sequence(void);
+
 int main(void){
 
+	fprintf(stdout, "Running Init test... ");
 	if (utf8_string__Test_Init() != 0){
-		fprintf(stderr, "Init test failed\n");
+		fprintf(stdout, "failed\n");
 		return EXIT_FAILURE;
 	}
+	fprintf(stdout, "passed\n");
 
+	fprintf(stdout, "Running Done test... ");
 	if (utf8_string__Test_Done() != 0){
-		fprintf(stderr, "Done test failed\n");
+		fprintf(stdout, "failed\n");
 		return EXIT_FAILURE;
 	}
+	fprintf(stdout, "passed\n");
 
+	fprintf(stdout, "Running Get_Byte test... ");
 	if (utf8_string__Test_Get_Byte() != 0){
-		fprintf(stderr, "Get_Byte test failed\n");
+		fprintf(stdout, "failed\n");
 		return EXIT_FAILURE;
 	}
+	fprintf(stdout, "passed\n");
 
+	fprintf(stdout, "Running Get_Byte_Span test... ");
 	if (utf8_string__Test_Get_Byte_Span() != 0){
-		fprintf(stderr, "Get_Byte_Span test failed\n");
+		fprintf(stdout, "failed\n");
 		return EXIT_FAILURE;
 	}
+	fprintf(stdout, "passed\n");
+
+	fprintf(stdout, "Running Get_Sequence test... ");
+	if (utf8_string__Test_Get_Sequence() != 0){
+		fprintf(stdout, "failed\n");
+		return EXIT_FAILURE;
+	}
+	fprintf(stdout, "passed\n");
 
 	return EXIT_SUCCESS;
 }
@@ -164,3 +181,49 @@ int utf8_string__Test_Get_Byte_Span(void){
 	return 0;
 }
 
+int utf8_string__Test_Get_Sequence(void){
+
+	utf8_sequence sequence;
+
+	/* used for creating artificial utf8 strings. */
+	utf8_byte byte_array[256];
+
+	/* used for creating artificial utf8 strings. */
+	utf8_string string;
+
+	byte_array[0] = 0xC0;
+	byte_array[1] = 0x81;
+
+	string.byte_array = byte_array;
+	string.byte_count = 2;
+
+	if (utf8_string_Get_Sequence(&string, 0, &sequence) < 0){
+		fprintf(stderr, "failed to get sequence at index 0\n");
+		return -1;
+	}
+
+	if ((sequence.byte_array[0] != 0xC0) || (sequence.byte_array[1] != 0x81)){
+		fprintf(stderr, "sequence test at index 0 contains incorrect data\n");
+		return -2;
+	}
+
+	byte_array[2] = 0xE0;
+	byte_array[3] = 0x80;
+	byte_array[4] = 0x80;
+
+	string.byte_count += 3;
+
+	if (utf8_string_Get_Sequence(&string, 1, &sequence) < 0){
+		fprintf(stderr, "failed to get sequence at index 1\n");
+		return -3;
+	}
+
+	if ((sequence.byte_array[0] != 0xE0)
+	 || (sequence.byte_array[1] != 0x80)
+	 || (sequence.byte_array[2] != 0x80)){
+		fprintf(stderr, "sequence test at index 1 contains incorrect data\n");
+		return -4;
+	}
+
+	return 0;
+}
