@@ -105,48 +105,50 @@ int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_point expect
 
 int utf8_sequence__Test_Decode(void){
 
+	utf8_point point = 0;
+
 	utf8_sequence sequence;
 	utf8_sequence_Init(&sequence);
 
 	sequence.byte_array[0] = 0x00;
-	if (utf8_sequence_Decode(&sequence) != 0x00){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x00){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x00);
 	}
 
 	sequence.byte_array[0] = 0x7F;
-	if (utf8_sequence_Decode(&sequence) != 0x7F){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x7F){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x7F);
 	}
 
 	sequence.byte_array[0] = 0xC2;
 	sequence.byte_array[1] = 0x80;
-	if (utf8_sequence_Decode(&sequence) != 0x80){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x80){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x80);
 	}
 
 	sequence.byte_array[0] = 0xCF;
 	sequence.byte_array[1] = 0xBF;
-	if (utf8_sequence_Decode(&sequence) != 0x03FF){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x03FF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x03FF);
 	}
 
 	sequence.byte_array[0] = 0xDF;
 	sequence.byte_array[1] = 0xBF;
-	if (utf8_sequence_Decode(&sequence) != 0x07FF){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x07FF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x07FF);
 	}
 
 	sequence.byte_array[0] = 0xE8;
 	sequence.byte_array[1] = 0x80;
 	sequence.byte_array[2] = 0x80;
-	if (utf8_sequence_Decode(&sequence) != 0x8000){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x8000){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x8000);
 	}
 
 	sequence.byte_array[0] = 0xEF;
 	sequence.byte_array[1] = 0xBF;
 	sequence.byte_array[2] = 0xBF;
-	if (utf8_sequence_Decode(&sequence) != 0xFFFF){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0xFFFF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0xFFFF);
 	}
 
@@ -154,7 +156,7 @@ int utf8_sequence__Test_Decode(void){
 	sequence.byte_array[1] = 0x80;
 	sequence.byte_array[2] = 0x80;
 	sequence.byte_array[3] = 0x80;
-	if (utf8_sequence_Decode(&sequence) != 0x100000){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x100000){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x100000);
 	}
 
@@ -162,7 +164,7 @@ int utf8_sequence__Test_Decode(void){
 	sequence.byte_array[1] = 0xBF;
 	sequence.byte_array[2] = 0xBF;
 	sequence.byte_array[3] = 0xBF;
-	if (utf8_sequence_Decode(&sequence) != 0x1FFFFF){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x1FFFFF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x1FFFFF);
 	}
 
@@ -171,7 +173,7 @@ int utf8_sequence__Test_Decode(void){
 	sequence.byte_array[2] = 0x80;
 	sequence.byte_array[3] = 0x80;
 	sequence.byte_array[4] = 0x80;
-	if (utf8_sequence_Decode(&sequence) != 0x01000000){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x01000000){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x01000000);
 	}
 
@@ -180,7 +182,7 @@ int utf8_sequence__Test_Decode(void){
 	sequence.byte_array[2] = 0xBF;
 	sequence.byte_array[3] = 0xBF;
 	sequence.byte_array[4] = 0xBF;
-	if (utf8_sequence_Decode(&sequence) != 0x03FFFFFF){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x03FFFFFF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x03FFFFFF);
 	}
 
@@ -190,7 +192,7 @@ int utf8_sequence__Test_Decode(void){
 	sequence.byte_array[3] = 0x80;
 	sequence.byte_array[4] = 0x80;
 	sequence.byte_array[5] = 0x80;
-	if (utf8_sequence_Decode(&sequence) != 0x40000000){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x40000000){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x40000000);
 	}
 
@@ -200,7 +202,7 @@ int utf8_sequence__Test_Decode(void){
 	sequence.byte_array[3] = 0xBF;
 	sequence.byte_array[4] = 0xBF;
 	sequence.byte_array[5] = 0xBF;
-	if (utf8_sequence_Decode(&sequence) != 0x7FFFFFFF){
+	if (utf8_sequence_Decode(&sequence, &point) < 0 || point != 0x7FFFFFFF){
 		return utf8_sequence__Test_Decode__Fail(&sequence, 0x7FFFFFFF);
 	}
 
@@ -209,7 +211,9 @@ int utf8_sequence__Test_Decode(void){
 
 int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_point expected_char){
 
-	utf8_point actual_char = utf8_sequence_Decode(sequence);
+	utf8_point actual_char = 0;
+
+	utf8_sequence_Decode(sequence, &actual_char);
 
 	fprintf(stderr, "utf8_sequence__Test_Decode failed:\n");
 	fprintf(stderr, "\texpected:   %ld\n", expected_char);

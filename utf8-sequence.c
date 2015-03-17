@@ -28,16 +28,16 @@ void utf8_sequence_Done(utf8_sequence * sequence){
 	memset(sequence, 0, sizeof(*sequence));
 }
 
-utf8_point utf8_sequence_Decode(utf8_sequence * sequence){
+int utf8_sequence_Decode(utf8_sequence * sequence, utf8_point * point){
 
 	int byte_index = 0;
-
-	utf8_point c = 0;
 
 	int byte_count = utf8_byte_Get_Span(sequence->byte_array[0]);
 	if (byte_count < 0){
 		return -1;
 	}
+
+	(*point) = 0;
 
 	for (byte_index = 0; byte_index < byte_count; byte_index++){
 
@@ -45,19 +45,19 @@ utf8_point utf8_sequence_Decode(utf8_sequence * sequence){
 
 		int byte_data = utf8_byte_Get_Data(sequence->byte_array[byte_index]);
 		if (byte_data < 0){
-			return -1;
+			return -2;
 		}
 
 		byte_bit_count = utf8_byte_Get_Data_Bit_Count(sequence->byte_array[byte_index]);
 		if (byte_bit_count < 0){
-			return -1;
+			return -3;
 		}
 
-		c <<= byte_bit_count;
-		c += byte_data;
+		(*point) <<= byte_bit_count;
+		(*point) += byte_data;
 	}
 
-	return c;
+	return 0;
 }
 
 int utf8_sequence_Encode(utf8_sequence * sequence, utf8_point c){
