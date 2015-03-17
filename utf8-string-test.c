@@ -110,6 +110,8 @@ int utf8_string__Test_Get_Byte(void){
 
 	utf8_byte byte_array[3];
 
+	utf8_byte test_byte = 0;
+
 	utf8_string string;
 
 	int i = 0;
@@ -122,7 +124,13 @@ int utf8_string__Test_Get_Byte(void){
 	string.byte_count = 3;
 
 	for (i = 0; i < 3; i++){
-		if (utf8_string_Get_Byte(&string, i) != byte_array[i]){
+
+		if (utf8_string_Get_Byte(&string, i, &test_byte) < 0){
+			fprintf(stderr, "failed to get byte %d\n", i);
+			return -1;
+		}
+
+		if (test_byte != byte_array[i]){
 			fprintf(stderr, "byte[%d] value is different\n", i);
 			return -1;
 		}

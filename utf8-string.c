@@ -33,8 +33,14 @@ void utf8_string_Done(utf8_string * str){
 	}
 }
 
-utf8_byte utf8_string_Get_Byte(utf8_string * str, int i){
-	return str->byte_array[i];
+int utf8_string_Get_Byte(utf8_string * str, int i, utf8_byte * byte){
+	if (i >= str->byte_count){
+		return -1;
+	}
+
+	*byte = str->byte_array[i];
+
+	return i;
 }
 
 int utf8_string_Get_Byte_Span(utf8_string * str, int i){
