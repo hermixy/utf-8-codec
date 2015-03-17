@@ -39,5 +39,7 @@ int utf8_string_Get_Point(utf8_string * str, int i, utf8_point * point);
 
 int utf8_string_Get_Sequence(utf8_string * str, int i, utf8_sequence * sequence);
 
+int utf8_string_Get_Point(utf8_string * str, int i, utf8_point * point);
+
 #endif /* UTF8_STRING_UTF8_STRING_H */
 

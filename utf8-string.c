@@ -101,3 +101,22 @@ int utf8_string_Get_Sequence(utf8_string * str, int i_point_req, utf8_sequence *
 	return 0;
 }
 
+int utf8_string_Get_Point(utf8_string * str, int i, utf8_point * point){
+
+	utf8_sequence point_sequence;
+
+	if (utf8_sequence_Init(&point_sequence) < 0){
+		return -1;
+	}
+
+	if (utf8_string_Get_Sequence(str, i, &point_sequence) < 0){
+		return -2;
+	}
+
+	if (utf8_sequence_Decode(&point_sequence, point) < 0){
+		return -3;
+	}
+
+	return 0;
+}
+
