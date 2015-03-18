@@ -51,19 +51,19 @@ int utf_8_codec_Calculate_Length_Encoded(signed long int in){
 
 int utf_8_codec_Decode(unsigned char * in, long int * out){
 
-	if (in[0] < 0x80){
+	if (in[0] <= 0x7F){
 		*out = 0x7F & in[0];
 		return 1;
-	} else if (in[0] < 0xDF){
+	} else if (in[0] <= 0xDF){
 		*out = (0x1F & in[0]) << 0x06;
 		*out += 0x3F & in[1];
 		return 2;
-	} else if (in[0] < 0xEF){
+	} else if (in[0] <= 0xEF){
 		*out = (0x0F & in[0]) << 0x0C;
 		*out += (0x3F & in[1]) << 0x06;
 		*out += 0x3F & in[2];
 		return 3;
-	} else if (in[0] < 0xF7){
+	} else if (in[0] <= 0xF7){
 		*out = (0x07 & in[0]) << 0x12;
 		*out += (0x3F & in[1]) << 0x0C;
 		*out += (0x3F & in[2]) << 0x06;
