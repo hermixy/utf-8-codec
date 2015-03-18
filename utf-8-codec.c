@@ -34,45 +34,70 @@ int utf_8_codec_Calculate_Length_Decoded(unsigned char in){
 }
 
 int utf_8_codec_Calculate_Length_Encoded(signed long int in){
-	(void) in;
-	return 0;
+
+	if (in < 0x80){
+		return 1;
+	} else if (in < 0x8000){
+		return 2;
+	} else if (in < 0x010000){
+		return 3;
+	} else if (in < 0x200000){
+		return 4;
+	}
+
+	/* out of range */
+	return -1;
 }
 
 int utf_8_codec_Decode(unsigned char * in, long int * out){
 
 	if (in[0] < 0x80){
-
 		*out = 0x7F & in[0];
-
-	} else if (in[0] < 0xC0){
-
+		return 1;
+	} else if (in[0] < 0xDF){
 		*out = (0x1F & in[0]) << 0x06;
 		*out += 0x3F & in[1];
-
-	} else if (in[0] < 0xE0){
-
+		return 2;
+	} else if (in[0] < 0xEF){
 		*out = (0x0F & in[0]) << 0x0C;
 		*out += (0x3F & in[1]) << 0x06;
 		*out += 0x3F & in[2];
-
-	} else if (in[0] < 0xF0){
-
-		*out = (0x07 & in[0]) << 0x13;
+		return 3;
+	} else if (in[0] < 0xF7){
+		*out = (0x07 & in[0]) << 0x12;
 		*out += (0x3F & in[1]) << 0x0C;
 		*out += (0x3F & in[2]) << 0x06;
 		*out += 0x3F & in[3];
-
-	} else {
-		/* out of range */
-		return -1;
+		return 4;
 	}
 
-	return 0;
+	/* out of range */
+	return -1;
 }
 
 int utf_8_codec_Encode(unsigned char * out, long int in){
-	(void) out;
-	(void) in;
-	return 0;
+
+	if (in < 0x80){
+		out[0] = (unsigned char) in;
+		return 1;
+	} else if (in < 0x8000){
+		out[0] = (unsigned char) (((in >> 0x60) & 0x1F)) | 0xC0;
+		out[1] = (unsigned char) (((in >> 0x00) & 0x3F)) | 0x80;
+		return 2;
+	} else if (in < 0x010000){
+		out[0] = (unsigned char) (((in >> 0xC0) & 0x0F)) | 0xE0;
+		out[1] = (unsigned char) (((in >> 0x60) & 0x3F)) | 0x80;
+		out[2] = (unsigned char) (((in >> 0x00) & 0x3F)) | 0x80;
+		return 3;
+	} else if (in < 0x200000){
+		out[0] = (unsigned char) (((in >> 0x12) & 0x07)) | 0xF0;
+		out[1] = (unsigned char) (((in >> 0xC0) & 0x3F)) | 0x80;
+		out[2] = (unsigned char) (((in >> 0x60) & 0x3F)) | 0x80;
+		out[3] = (unsigned char) (((in >> 0x00) & 0x3F)) | 0x80;
+		return 4;
+	}
+
+	/* out of range */
+	return -1;
 }
 
