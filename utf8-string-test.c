@@ -30,6 +30,8 @@ int utf8_string__Test_Get_Byte_Span(void);
 
 int utf8_string__Test_Get_Sequence(void);
 
+int utf8_string__Test_Get_Point(void);
+
 int main(void){
 
 	fprintf(stdout, "Running Init test... ");
@@ -62,6 +64,13 @@ int main(void){
 
 	fprintf(stdout, "Running Get_Sequence test... ");
 	if (utf8_string__Test_Get_Sequence() != 0){
+		fprintf(stdout, "failed\n");
+		return EXIT_FAILURE;
+	}
+	fprintf(stdout, "passed\n");
+
+	fprintf(stdout, "Running Get_Point test... ");
+	if (utf8_string__Test_Get_Point() != 0){
 		fprintf(stdout, "failed\n");
 		return EXIT_FAILURE;
 	}
@@ -227,3 +236,141 @@ int utf8_string__Test_Get_Sequence(void){
 
 	return 0;
 }
+
+int utf8_string__Test_Get_Point(void){
+
+	utf8_point point;
+
+	utf8_byte byte_array[256];
+
+	utf8_string string;
+
+	string.byte_array = byte_array;
+
+	string.byte_array[0] = 0;
+	string.byte_count = 1;
+	if (utf8_string_Get_Point(&string, 0, &point) < 0 || point != 0){
+		fprintf(stderr, "failed to get point 0\n");
+		return -1;
+	}
+
+	string.byte_array[0] = 0x7F;
+	string.byte_count = 1;
+	if (utf8_string_Get_Point(&string, 0, &point) < 0 || point != 0x7F){
+		fprintf(stderr, "failed to get point 0x7F\n");
+		return -2;
+	}
+
+	string.byte_array[0] = 0xC2;
+	string.byte_array[1] = 0x80;
+	string.byte_count = 2;
+	if (utf8_string_Get_Point(&string, 0, &point) < 0 || point != 0x80){
+		fprintf(stderr, "failed to get point 0x80\n");
+		return -3;
+	}
+
+	string.byte_array[0] = 0xDF;
+	string.byte_array[1] = 0xBF;
+	string.byte_count = 2;
+	if (utf8_string_Get_Point(&string, 0, &point) < 0 || point != 0x7FF){
+		fprintf(stderr, "failed to get point 0x7FF\n");
+		return -4;
+	}
+
+	string.byte_array[0] = 0xE0;
+	string.byte_array[1] = 0xA0;
+	string.byte_array[2] = 0x80;
+	string.byte_count = 3;
+	if (utf8_string_Get_Point(&string, 0, &point) < 0 || point != 0x800){
+		fprintf(stderr, "failed to get point 0x800\n");
+		return -5;
+	}
+
+	string.byte_array[0] = 0xEF;
+	string.byte_array[1] = 0xBF;
+	string.byte_array[2] = 0xBF;
+	string.byte_count = 3;
+	if (utf8_string_Get_Point(&string, 0, &point) < 0 || point != 0xFFFF){
+		fprintf(stderr, "failed to get point 0x7FFF\n");
+		return -6;
+	}
+
+	string.byte_array[0] = 0xF0;
+	string.byte_array[1] = 0x90;
+	string.byte_array[2] = 0x80;
+	string.byte_array[3] = 0x80;
+	string.byte_count = 4;
+	if (utf8_string_Get_Point(&string, 0, &point) < 0 || point != 0x010000){
+		fprintf(stderr, "failed to get point 0x010000\n");
+		return -7;
+	}
+
+	string.byte_array[0] = 0x00;
+	string.byte_array[1] = 0x7F;
+	string.byte_count = 2;
+	if (utf8_string_Get_Point(&string, 1, &point) < 0 || point != 0x7F){
+		fprintf(stderr, "failed to get point 0x7F after 0x00\n");
+		return -8;
+	}
+
+	string.byte_array[0] = 0xC2;
+	string.byte_array[1] = 0x80;
+	string.byte_array[2] = 0x7F;
+	string.byte_count = 3;
+	if (utf8_string_Get_Point(&string, 1, &point) < 0 || point != 0x7F){
+		fprintf(stderr, "failed to get point 0x7F after 0xC2 0x80\n");
+		return -9;
+	}
+
+	string.byte_array[0] = 0xE8;
+	string.byte_array[1] = 0x80;
+	string.byte_array[2] = 0x80;
+	string.byte_array[3] = 0x7F;
+	string.byte_count = 4;
+	if (utf8_string_Get_Point(&string, 1, &point) < 0 || point != 0x7F){
+		fprintf(stderr, "failed to get point 0x7F after 0xE8 0x80 0x80\n");
+		return -10;
+	}
+
+	string.byte_array[0] = 0x00;
+	string.byte_array[1] = 0x00;
+	string.byte_array[2] = 0x7F;
+	string.byte_count = 3;
+	if (utf8_string_Get_Point(&string, 2, &point) < 0 || point != 0x7F){
+		fprintf(stderr, "failed to get point 0x7F after 0x00 0x00\n");
+		return -11;
+	}
+
+	string.byte_array[0] = 0xC2;
+	string.byte_array[1] = 0x80;
+	string.byte_array[2] = 0x00;
+	string.byte_array[3] = 0x7F;
+	string.byte_count = 4;
+	if (utf8_string_Get_Point(&string, 2, &point) < 0 || point != 0x7F){
+		fprintf(stderr, "failed to get point 0x7F after 0xC2 0x80 0x00\n");
+		return -12;
+	}
+
+	string.byte_array[0] = 0x00;
+	string.byte_array[1] = 0xC2;
+	string.byte_array[2] = 0x80;
+	string.byte_array[3] = 0x7F;
+	string.byte_count = 4;
+	if (utf8_string_Get_Point(&string, 0, &point) < 0 || point != 0x00){
+		fprintf(stderr, "failed to get point 0x00 before 0xC2 0x80 0x7F\n");
+		return -13;
+	}
+
+	if (utf8_string_Get_Point(&string, 1, &point) < 0 || point != 0x80){
+		fprintf(stderr, "failed to get point 0x80 before 0x7F and after 0x00\n");
+		return -14;
+	}
+
+	if (utf8_string_Get_Point(&string, 2, &point) < 0 || point != 0x7F){
+		fprintf(stderr, "failed to get point 0x7F after 0x00 0xC2 0x80\n");
+		return -15;
+	}
+
+	return 0;
+}
+
