@@ -15,7 +15,7 @@
  *    along with Utf8String.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "utf8-byte.h"
+#include "utf-8-byte.h"
 
 #include <stdio.h>
 #include <stdlib.h>

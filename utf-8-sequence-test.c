@@ -15,7 +15,7 @@
  *    along with Utf8String.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "utf8-sequence.h"
+#include "utf-8-sequence.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -101,11 +101,11 @@ int utf8_sequence__Test_Done(void){
 	return 0;
 }
 
-int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_point expected_char);
+int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, long int expected_char);
 
 int utf8_sequence__Test_Decode(void){
 
-	utf8_point point = 0;
+	long int point = 0;
 
 	utf8_sequence sequence;
 	utf8_sequence_Init(&sequence);
@@ -209,9 +209,9 @@ int utf8_sequence__Test_Decode(void){
 	return 0;
 }
 
-int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_point expected_char){
+int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, long int expected_char){
 
-	utf8_point actual_char = 0;
+	long int actual_char = 0;
 
 	utf8_sequence_Decode(sequence, &actual_char);
 
@@ -226,7 +226,7 @@ int utf8_sequence__Test_Decode__Fail(utf8_sequence * sequence, utf8_point expect
 	return -1;
 }
 
-int utf8_sequence__Unit_Test_Encode(utf8_sequence * expected_sequence, utf8_point c);
+int utf8_sequence__Unit_Test_Encode(utf8_sequence * expected_sequence, long int c);
 
 int utf8_sequence__Test_Encode(void){
 
@@ -345,7 +345,7 @@ int utf8_sequence__Test_Encode(void){
 	return 0;
 }
 
-int utf8_sequence__Unit_Test_Encode(utf8_sequence * expected_sequence, utf8_point c){
+int utf8_sequence__Unit_Test_Encode(utf8_sequence * expected_sequence, long int c){
 
 	int i = 0;
 

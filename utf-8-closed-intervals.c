@@ -15,25 +15,15 @@
  *    along with Utf8String.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UTF8_SEQUENCE_H
-#define UTF8_SEQUENCE_H
+#include "utf-8-closed-intervals.h"
 
-#include "utf8-point.h"
-#include "utf8-byte.h"
-
-#define UTF8_SEQUENCE_POINT_MAX 6
-
-typedef struct utf8_sequence {
-	utf8_byte byte_array[UTF8_SEQUENCE_POINT_MAX];
-} utf8_sequence;
-
-int utf8_sequence_Init(utf8_sequence * sequence);
-
-void utf8_sequence_Done(utf8_sequence * sequence);
-
-int utf8_sequence_Decode(const utf8_sequence * sequence, utf8_point * c);
-
-int utf8_sequence_Encode(utf8_sequence * sequence, utf8_point c);
-
-#endif /* UTF8_SEQUENCE_H */
+const int utf8_closed_intervals[7][2] = {
+	{ 0x00, 0x7F },
+	{ 0x80, 0xBF }, /* note, this does not occur in the first byte of a sequence. */
+	{ 0xC0, 0xDF },
+	{ 0xE0, 0xEF },
+	{ 0xF0, 0xF7 },
+	{ 0xF8, 0xFB },
+	{ 0xFC, 0xFD }
+};
 

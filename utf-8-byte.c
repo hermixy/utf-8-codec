@@ -15,8 +15,8 @@
  *    along with Utf8String.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "utf8-byte.h"
-#include "utf8-closed-intervals.h"
+#include "utf-8-byte.h"
+#include "utf-8-closed-intervals.h"
 
 int utf8_byte_Get_Span(utf8_byte byte){
 

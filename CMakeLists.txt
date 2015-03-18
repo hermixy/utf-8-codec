@@ -12,24 +12,24 @@ elseif (MSVC)
 endif (CMAKE_COMPILER_IS_GNUCC)
 
 add_library("utf-8-codec"
-	"utf8-closed-intervals.h"
-	"utf8-closed-intervals.c"
-	"utf8-byte.h"
-	"utf8-byte.c"
-	"utf8-sequence.h"
-	"utf8-sequence.c")
+	"utf-8-closed-intervals.h"
+	"utf-8-closed-intervals.c"
+	"utf-8-byte.h"
+	"utf-8-byte.c"
+	"utf-8-sequence.h"
+	"utf-8-sequence.c")
 
 enable_testing()
 
-add_executable("utf8-byte-test" "utf8-byte-test.c")
+add_executable("utf-8-byte-test" "utf-8-byte-test.c")
 
-target_link_libraries("utf8-byte-test" "utf-8-codec")
+target_link_libraries("utf-8-byte-test" "utf-8-codec")
 
-add_test("utf8-byte-test" "utf8-byte-test")
+add_test("utf-8-byte-test" "utf-8-byte-test")
 
-add_executable("utf8-sequence-test" "utf8-sequence-test.c")
+add_executable("utf-8-sequence-test" "utf-8-sequence-test.c")
 
-target_link_libraries("utf8-sequence-test" "utf-8-codec")
+target_link_libraries("utf-8-sequence-test" "utf-8-codec")
 
-add_test("utf8-sequence-test" "utf8-sequence-test")
+add_test("utf-8-sequence-test" "utf-8-sequence-test")
 

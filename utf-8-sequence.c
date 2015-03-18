@@ -15,7 +15,7 @@
  *    along with Utf8String.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "utf8-sequence.h"
+#include "utf-8-sequence.h"
 
 #include <string.h>
 
@@ -28,7 +28,7 @@ void utf8_sequence_Done(utf8_sequence * sequence){
 	memset(sequence, 0, sizeof(*sequence));
 }
 
-int utf8_sequence_Decode(const utf8_sequence * sequence, utf8_point * point){
+int utf8_sequence_Decode(const utf8_sequence * sequence, long int * point){
 
 	int byte_index = 0;
 
@@ -60,7 +60,7 @@ int utf8_sequence_Decode(const utf8_sequence * sequence, utf8_point * point){
 	return 0;
 }
 
-int utf8_sequence_Encode(utf8_sequence * sequence, utf8_point c){
+int utf8_sequence_Encode(utf8_sequence * sequence, long int c){
 
 	memset(sequence, 0, sizeof(*sequence));
 
