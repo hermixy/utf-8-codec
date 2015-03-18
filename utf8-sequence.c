@@ -28,7 +28,7 @@ void utf8_sequence_Done(utf8_sequence * sequence){
 	memset(sequence, 0, sizeof(*sequence));
 }
 
-int utf8_sequence_Decode(utf8_sequence * sequence, utf8_point * point){
+int utf8_sequence_Decode(const utf8_sequence * sequence, utf8_point * point){
 
 	int byte_index = 0;
 

@@ -31,7 +31,7 @@ int utf8_sequence_Init(utf8_sequence * sequence);
 
 void utf8_sequence_Done(utf8_sequence * sequence);
 
-int utf8_sequence_Decode(utf8_sequence * sequence, utf8_point * c);
+int utf8_sequence_Decode(const utf8_sequence * sequence, utf8_point * c);
 
 int utf8_sequence_Encode(utf8_sequence * sequence, utf8_point c);
 
