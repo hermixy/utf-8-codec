@@ -100,6 +100,13 @@ int utf_8_codec_Test_Decode(void){
 		return -1;
 	}
 
+	/* check to make sure that this fails */
+	test_buffer[0] = 0xF8;
+	if (utf_8_codec_Decode(test_buffer, &test_c) >= 0){
+		fprintf(stderr, "decode did not fail in an out of bounds encoding\n");
+		return -1;
+	}
+
 	return 0;
 }
 
