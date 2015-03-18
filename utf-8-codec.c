@@ -37,11 +37,11 @@ int utf_8_codec_Calculate_Length_Encoded(signed long int in){
 
 	if (in < 0x80){
 		return 1;
-	} else if (in < 0x8000){
+	} else if (in < 0x800){
 		return 2;
 	} else if (in < 0x010000){
 		return 3;
-	} else if (in < 0x200000){
+	} else if (in < 0x110000){
 		return 4;
 	}
 
@@ -80,7 +80,7 @@ int utf_8_codec_Encode(unsigned char * out, long int in){
 	if (in < 0x80){
 		out[0] = (unsigned char) in;
 		return 1;
-	} else if (in < 0x8000){
+	} else if (in < 0x0800){
 		out[0] = (unsigned char) (((in >> 0x06) & 0x1F)) | 0xC0;
 		out[1] = (unsigned char) (((in >> 0x00) & 0x3F)) | 0x80;
 		return 2;
@@ -89,7 +89,7 @@ int utf_8_codec_Encode(unsigned char * out, long int in){
 		out[1] = (unsigned char) (((in >> 0x06) & 0x3F)) | 0x80;
 		out[2] = (unsigned char) (((in >> 0x00) & 0x3F)) | 0x80;
 		return 3;
-	} else if (in < 0x200000){
+	} else if (in < 0x110000){
 		out[0] = (unsigned char) (((in >> 0x12) & 0x07)) | 0xF0;
 		out[1] = (unsigned char) (((in >> 0x0C) & 0x3F)) | 0x80;
 		out[2] = (unsigned char) (((in >> 0x06) & 0x3F)) | 0x80;
