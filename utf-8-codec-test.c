@@ -22,10 +22,19 @@
 
 int utf_8_codec_Test_Decode(void);
 
+int utf_8_codec_Test_Encode(void);
+
 int main(void){
 
 	fprintf(stdout, "Running decode test...");
 	if (utf_8_codec_Test_Decode() < 0){
+		fprintf(stdout, "failed\n");
+		return EXIT_FAILURE;
+	}
+	fprintf(stdout, "passed\n");
+
+	fprintf(stdout, "Running encode test...");
+	if (utf_8_codec_Test_Encode() < 0){
 		fprintf(stdout, "failed\n");
 		return EXIT_FAILURE;
 	}
@@ -104,6 +113,77 @@ int utf_8_codec_Test_Decode(void){
 	test_buffer[0] = 0xF8;
 	if (utf_8_codec_Decode(test_buffer, &test_c) >= 0){
 		fprintf(stderr, "decode did not fail in an out of bounds encoding\n");
+		return -1;
+	}
+
+	return 0;
+}
+
+int utf_8_codec_Test_Encode(void){
+
+	unsigned char test_buffer[4];
+
+	long int test_c = 0;
+
+	test_c = 0x00;
+	if (utf_8_codec_Encode(test_buffer, test_c) < 0 || test_buffer[0] != 0x00){
+		fprintf(stderr, "failed to encode 0x00\n");
+		return -1;
+	}
+
+	test_c = 0x7F;
+	if (utf_8_codec_Encode(test_buffer, test_c) < 0 || test_buffer[0] != 0x7F){
+		fprintf(stderr, "failed to encode 0x7F\n");
+		return -1;
+	}
+
+	test_c = 0x80;
+	if (utf_8_codec_Encode(test_buffer, test_c) < 0
+	 || test_buffer[0] != 0xC2 || test_buffer[1] != 0x80){
+		fprintf(stderr, "failed to encode 0x80\n");
+		return -1;
+	}
+
+	test_c = 0x07FF;
+	if (utf_8_codec_Encode(test_buffer, test_c) < 0
+	 || test_buffer[0] != 0xDF || test_buffer[1] != 0xBF){
+		fprintf(stderr, "failed to encode 0x07FF\n");
+		return -1;
+	}
+
+	test_c = 0x0800;
+	if (utf_8_codec_Encode(test_buffer, test_c) < 0 || test_buffer[0] != 0xE0
+	 || test_buffer[1] != 0xA0 || test_buffer[2] != 0x80){
+		fprintf(stderr, "failed to encode 0x0800\n");
+		return -1;
+	}
+
+	test_c = 0xFFFF;
+	if (utf_8_codec_Encode(test_buffer, test_c) < 0 || test_buffer[0] != 0xEF
+	 || test_buffer[1] != 0xBF || test_buffer[2] != 0xBF){
+		fprintf(stderr, "failed to encode 0xFFFF\n");
+		return -1;
+	}
+
+	test_c = 0x010000;
+	if (utf_8_codec_Encode(test_buffer, test_c) < 0
+	 || test_buffer[0] != 0xF0 || test_buffer[1] != 0x90
+	 || test_buffer[2] != 0x80 || test_buffer[3] != 0x80){
+		fprintf(stderr, "failed to encode 0x010000\n");
+		return -1;
+	}
+
+	test_c = 0x10FFFF;
+	if (utf_8_codec_Encode(test_buffer, test_c) < 0
+	 || test_buffer[0] != 0xF4 || test_buffer[1] != 0x8F
+	 || test_buffer[2] != 0xBF || test_buffer[3] != 0xBF){
+		fprintf(stderr, "failed to encode 0x10FFFF\n");
+		return -1;
+	}
+
+	test_c = 0x110000;
+	if (utf_8_codec_Encode(test_buffer, test_c) >= 0){
+		fprintf(stderr, "encoding did not fail on 0x110000\n");
 		return -1;
 	}
 
