@@ -81,18 +81,18 @@ int utf_8_codec_Encode(unsigned char * out, long int in){
 		out[0] = (unsigned char) in;
 		return 1;
 	} else if (in < 0x8000){
-		out[0] = (unsigned char) (((in >> 0x60) & 0x1F)) | 0xC0;
+		out[0] = (unsigned char) (((in >> 0x06) & 0x1F)) | 0xC0;
 		out[1] = (unsigned char) (((in >> 0x00) & 0x3F)) | 0x80;
 		return 2;
 	} else if (in < 0x010000){
-		out[0] = (unsigned char) (((in >> 0xC0) & 0x0F)) | 0xE0;
-		out[1] = (unsigned char) (((in >> 0x60) & 0x3F)) | 0x80;
+		out[0] = (unsigned char) (((in >> 0x0C) & 0x0F)) | 0xE0;
+		out[1] = (unsigned char) (((in >> 0x06) & 0x3F)) | 0x80;
 		out[2] = (unsigned char) (((in >> 0x00) & 0x3F)) | 0x80;
 		return 3;
 	} else if (in < 0x200000){
 		out[0] = (unsigned char) (((in >> 0x12) & 0x07)) | 0xF0;
-		out[1] = (unsigned char) (((in >> 0xC0) & 0x3F)) | 0x80;
-		out[2] = (unsigned char) (((in >> 0x60) & 0x3F)) | 0x80;
+		out[1] = (unsigned char) (((in >> 0x0C) & 0x3F)) | 0x80;
+		out[2] = (unsigned char) (((in >> 0x06) & 0x3F)) | 0x80;
 		out[3] = (unsigned char) (((in >> 0x00) & 0x3F)) | 0x80;
 		return 4;
 	}
