@@ -22,7 +22,7 @@ int utf_8_codec_Calculate_Length_Decoded(unsigned char in);
 
 int utf_8_codec_Calculate_Length_Encoded(signed long int in);
 
-int utf_8_codec_Decode(unsigned char * in, long int * out);
+int utf_8_codec_Decode(const unsigned char * in, long int * out);
 
 int utf_8_codec_Encode(unsigned char * out, long int in);
 

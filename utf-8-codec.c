@@ -49,7 +49,7 @@ int utf_8_codec_Calculate_Length_Encoded(signed long int in){
 	return -1;
 }
 
-int utf_8_codec_Decode(unsigned char * in, long int * out){
+int utf_8_codec_Decode(const unsigned char * in, long int * out){
 
 	if (in[0] <= 0x7F){
 		*out = 0x7F & in[0];
