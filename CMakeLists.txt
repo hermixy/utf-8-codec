@@ -17,9 +17,7 @@ add_library("utf8-string"
 	"utf8-byte.h"
 	"utf8-byte.c"
 	"utf8-sequence.h"
-	"utf8-sequence.c"
-	"utf8-string.h"
-	"utf8-string.c")
+	"utf8-sequence.c")
 
 enable_testing()
 
@@ -34,10 +32,4 @@ add_executable("utf8-sequence-test" "utf8-sequence-test.c")
 target_link_libraries("utf8-sequence-test" "utf8-string")
 
 add_test("utf8-sequence-test" "utf8-sequence-test")
-
-add_executable("utf8-string-test" "utf8-string-test.c")
-
-target_link_libraries("utf8-string-test" "utf8-string")
-
-add_test("utf8-string-test" "utf8-string-test")
 
