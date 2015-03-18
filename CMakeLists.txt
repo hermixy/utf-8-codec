@@ -17,3 +17,7 @@ enable_testing()
 
 add_executable("utf-8-codec-test" "utf-8-codec-test.c")
 
+target_link_libraries("utf-8-codec-test" "utf-8-codec")
+
+add_test("utf-8-codec-test" "utf-8-codec-test")
+
