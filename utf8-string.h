@@ -37,9 +37,17 @@ int utf8_string_Get_Byte_Span(utf8_string * str, int i);
 
 int utf8_string_Get_Point(utf8_string * str, int i, utf8_point * point);
 
+int utf8_string_Get_Point_Count(utf8_string * str);
+
 int utf8_string_Get_Sequence(utf8_string * str, int i, utf8_sequence * sequence);
 
-int utf8_string_Get_Point(utf8_string * str, int i, utf8_point * point);
+int utf8_string_Get_Sequence_Count(utf8_string * str);
+
+int utf8_string_Set_Byte(utf8_string * str, int i, utf8_byte byte);
+
+int utf8_string_Set_Point(utf8_string * str, int i, utf8_point point);
+
+int utf8_string_Set_Sequence(utf8_string * str, int i, const utf8_sequence * sequence);
 
 #endif /* UTF8_STRING_UTF8_STRING_H */
 
