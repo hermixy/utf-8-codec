@@ -1,6 +1,6 @@
 # About
 
-Utf8-string is a string manipulation C library for UTF8 encoded data.
+Utf-8-codec library for encoding and decoding UTF8 data.
 
 It is meant to be lightweight, fast, and to the point.
 
