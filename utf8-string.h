@@ -31,17 +31,17 @@ int utf8_string_Init(utf8_string * str);
 
 void utf8_string_Done(utf8_string * str);
 
-int utf8_string_Get_Byte(utf8_string * str, int i, utf8_byte * byte);
+int utf8_string_Get_Byte(const utf8_string * str, int i, utf8_byte * byte);
 
-int utf8_string_Get_Byte_Span(utf8_string * str, int i);
+int utf8_string_Get_Byte_Span(const utf8_string * str, int i);
 
-int utf8_string_Get_Point(utf8_string * str, int i, utf8_point * point);
+int utf8_string_Get_Point(const utf8_string * str, int i, utf8_point * point);
 
-int utf8_string_Get_Point_Count(utf8_string * str);
+int utf8_string_Get_Point_Count(const utf8_string * str);
 
-int utf8_string_Get_Sequence(utf8_string * str, int i, utf8_sequence * sequence);
+int utf8_string_Get_Sequence(const utf8_string * str, int i, utf8_sequence * sequence);
 
-int utf8_string_Get_Sequence_Count(utf8_string * str);
+int utf8_string_Get_Sequence_Count(const utf8_string * str);
 
 int utf8_string_Set_Byte(utf8_string * str, int i, utf8_byte byte);
 

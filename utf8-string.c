@@ -33,7 +33,7 @@ void utf8_string_Done(utf8_string * str){
 	}
 }
 
-int utf8_string_Get_Byte(utf8_string * str, int i, utf8_byte * byte){
+int utf8_string_Get_Byte(const utf8_string * str, int i, utf8_byte * byte){
 	if (i >= str->byte_count){
 		return -1;
 	}
@@ -43,7 +43,7 @@ int utf8_string_Get_Byte(utf8_string * str, int i, utf8_byte * byte){
 	return i;
 }
 
-int utf8_string_Get_Byte_Span(utf8_string * str, int i){
+int utf8_string_Get_Byte_Span(const utf8_string * str, int i){
 
 	int byte_span = utf8_byte_Get_Span(str->byte_array[i]);
 	if (byte_span < 0){
@@ -53,7 +53,7 @@ int utf8_string_Get_Byte_Span(utf8_string * str, int i){
 	return byte_span;
 }
 
-int utf8_string_Get_Sequence(utf8_string * str, int i_point_req, utf8_sequence * sequence){
+int utf8_string_Get_Sequence(const utf8_string * str, int i_point_req, utf8_sequence * sequence){
 
 	int i_byte = 0;
 	int i_point = 0;
@@ -101,7 +101,7 @@ int utf8_string_Get_Sequence(utf8_string * str, int i_point_req, utf8_sequence *
 	return 0;
 }
 
-int utf8_string_Get_Point(utf8_string * str, int i, utf8_point * point){
+int utf8_string_Get_Point(const utf8_string * str, int i, utf8_point * point){
 
 	utf8_sequence point_sequence;
 
