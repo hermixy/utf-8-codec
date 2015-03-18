@@ -15,7 +15,16 @@
  *    along with Utf8Codec.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/** @file */
+
 #include "utf-8-codec.h"
+
+/** Calculate the expected length of a utf-8 sequence
+ * based on the first byte in the sequence.
+ * @param in The first byte in the utf-8 sequence.
+ * @return The length of the utf-8 sequence, including the first byte.
+ * If an error occurs, -1 is returned.
+ * */
 
 int utf_8_codec_Calculate_Length_Decoded(unsigned char in){
 
@@ -33,6 +42,12 @@ int utf_8_codec_Calculate_Length_Decoded(unsigned char in){
 	return -1;
 }
 
+/** Calculate what the sequence length would be of a 32 bit character.
+ * @param in A 32 bit character.
+ * @return The length of what the encoded sequence would be.
+ * If an error occurs, -1 is returned.
+ * */
+
 int utf_8_codec_Calculate_Length_Encoded(signed long int in){
 
 	if (in < 0x80){
@@ -48,6 +63,17 @@ int utf_8_codec_Calculate_Length_Encoded(signed long int in){
 	/* out of range */
 	return -1;
 }
+
+/** Decode a utf-8 sequence.
+ * 
+ * @param in A buffer containing a utf-8 sequence.
+ * The size of the buffer is calculated by the first byte in the sequence.
+ *
+ * @param out A pointer to at least a 32 bit data type to store the result.
+ *
+ * @return The amount of bytes in the sequence that were decoded.
+ * If an error occurs, -1 is returned.
+ * */
 
 int utf_8_codec_Decode(const unsigned char * in, long int * out){
 
@@ -74,6 +100,18 @@ int utf_8_codec_Decode(const unsigned char * in, long int * out){
 	/* out of range */
 	return -1;
 }
+
+/** Encode a utf-8 sequence.
+ *
+ * @param out A buffer where the result will be stored.
+ * This buffer must be large enough to store the sequence.
+ * The size may be calculated with utf_8_codec_Calculate_Length_Encoded().
+ *
+ * @param in The character to encode. Must be > 0 and < 0x110000.
+ *
+ * @return The amount of bytes written to the buffer. If an error occurs,
+ * -1 is returned.
+ * */
 
 int utf_8_codec_Encode(unsigned char * out, long int in){
 

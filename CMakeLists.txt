@@ -21,3 +21,11 @@ target_link_libraries("utf-8-codec-test" "utf-8-codec")
 
 add_test("utf-8-codec-test" "utf-8-codec-test")
 
+find_package(Doxygen)
+if (DOXYGEN_EXECUTABLE)
+	add_custom_target("doc" ALL
+		COMMAND ${DOXYGEN_EXECUTABLE}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+		COMMENT "Generating doxygen files")
+endif (DOXYGEN_EXECUTABLE)
+
