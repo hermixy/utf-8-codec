@@ -11,25 +11,9 @@ elseif (MSVC)
 	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /WX")
 endif (CMAKE_COMPILER_IS_GNUCC)
 
-add_library("utf-8-codec"
-	"utf-8-closed-intervals.h"
-	"utf-8-closed-intervals.c"
-	"utf-8-byte.h"
-	"utf-8-byte.c"
-	"utf-8-sequence.h"
-	"utf-8-sequence.c")
+add_library("utf-8-codec" "utf-8-codec.c")
 
 enable_testing()
 
-add_executable("utf-8-byte-test" "utf-8-byte-test.c")
-
-target_link_libraries("utf-8-byte-test" "utf-8-codec")
-
-add_test("utf-8-byte-test" "utf-8-byte-test")
-
-add_executable("utf-8-sequence-test" "utf-8-sequence-test.c")
-
-target_link_libraries("utf-8-sequence-test" "utf-8-codec")
-
-add_test("utf-8-sequence-test" "utf-8-sequence-test")
+add_executable("utf-8-codec-test" "utf-8-codec-test.c")
 

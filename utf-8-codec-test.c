@@ -1,24 +1,24 @@
 /*
- *    This file is part of Utf8String.
+ *    This file is part of Utf8Codec.
  *
- *    Utf8String is free software: you can redistribute it and/or modify
+ *    Utf8Codec is free software: you can redistribute it and/or modify
  *    it under the terms of the GNU General Public License as published by
  *    the Free Software Foundation, either version 3 of the License, or
  *    (at your option) any later version.
  *
- *    Utf8String is distributed in the hope that it will be useful,
+ *    Utf8Codec is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *    GNU General Public License for more details.
  *
  *    You should have received a copy of the GNU General Public License
- *    along with Utf8String.  If not, see <http://www.gnu.org/licenses/>.
+ *    along with Utf8Codec.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef UTF8_STRING_UTF8_CLOSED_INTERVALS_H
-#define UTF8_STRING_UTF8_CLOSED_INTERVALS_H
+#include "utf-8-codec.h"
 
-extern const int utf8_closed_intervals[7][2];
+int main(void){
 
-#endif /* UTF8_STRING_UTF8_CLOSED_INTERVALS_H */
+	return 0;
+}
 
