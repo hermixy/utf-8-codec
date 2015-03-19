@@ -30,6 +30,16 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/Utf8CodecConfig.cmake"
 install(FILES "utf-8-codec.h"
 	DESTINATION "include/utf-8-codec.h")
 
+set (CPACK_PACKAGE_DESCRIPTION_SUMMARY "A UTF-8 encoder and decoder library for C")
+set (CPACK_PACKAGE_VENDOR "c-sweets")
+set (CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set (CPACK_PACKAGE_VERSION_MAJOR ${GCOLLECTOR_VERSION_MAJOR})
+set (CPACK_PACKAGE_VERSION_MINOR ${GCOLLECTOR_VERSION_MINOR})
+set (CPACK_PACKAGE_VERSION_PATCH ${GCOLLECTOR_VERSION_PATCH})
+set (CPACK_PACKAGE_CONTACT "taylorcholberton@gmail.com")
+
+include(CPack)
+
 enable_testing()
 
 add_executable("utf-8-codec-test" "utf-8-codec-test.c")
