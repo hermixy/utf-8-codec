@@ -1,0 +1,5 @@
+set (UTF_8_CODEC_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@")
+
+include ("${UTF_8_CODEC_INSTALL_PREFIX}/share/Utf8Codec/CMake/Utf8CodecTargets.cmake")
+
+include_directories("${UTF_8_CODEC_INSTALL_PREFIX}/include")
