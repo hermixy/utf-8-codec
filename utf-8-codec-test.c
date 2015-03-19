@@ -20,11 +20,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int utf_8_codec_Test_Calculate_Length_Decoded(void);
+
+int utf_8_codec_Test_Calculate_Length_Encoded(void);
+
 int utf_8_codec_Test_Decode(void);
 
 int utf_8_codec_Test_Encode(void);
 
 int main(void){
+
+	fprintf(stdout, "Running decode length calculation test...");
+	if (utf_8_codec_Test_Calculate_Length_Decoded() < 0){
+		fprintf(stdout, "failed\n");
+		return EXIT_FAILURE;
+	}
+	fprintf(stdout, "passed\n");
 
 	fprintf(stdout, "Running decode test...");
 	if (utf_8_codec_Test_Decode() < 0){
@@ -39,6 +50,91 @@ int main(void){
 		return EXIT_FAILURE;
 	}
 	fprintf(stdout, "passed\n");
+
+	return 0;
+}
+
+int utf_8_codec_Test_Calculate_Length_Decoded(void){
+
+	if (utf_8_codec_Calculate_Length_Decoded(0x00) != 1){
+		fprintf(stderr, "length calculation of 0x00 failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Decoded(0x7F) != 1){
+		fprintf(stderr, "length calculation of 0x7F failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Decoded(0xC0) != 2){
+		fprintf(stderr, "length calculation of 0xC0 failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Decoded(0xE0) != 3){
+		fprintf(stderr, "length calculation of 0xE0 failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Decoded(0xF0) != 4){
+		fprintf(stderr, "length calculation of 0xF0 failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Decoded(0xF8) >= 0){
+		fprintf(stderr, "length calculation of 0xF8 should cause error\n");
+		return -1;
+	}
+
+	return 0;
+}
+
+int utf_8_codec_Test_Calculate_Length_Encoded(void){
+
+	if (utf_8_codec_Calculate_Length_Encoded(0x00) != 1){
+		fprintf(stderr, "length calculation of 0x00 failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Encoded(0x7F) != 1){
+		fprintf(stderr, "length calculation of 0x7F failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Encoded(0x80) != 2){
+		fprintf(stderr, "length calculation of 0x80 failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Encoded(0x07FF) != 2){
+		fprintf(stderr, "length calculation of 0x07FF failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Encoded(0x0800) != 3){
+		fprintf(stderr, "length calculation of 0x0800 failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Encoded(0xFFFF) != 3){
+		fprintf(stderr, "length calculation of 0xFFFF failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Encoded(0x010000) != 4){
+		fprintf(stderr, "length calculation of 0x01000 failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Encoded(0x10FFFF) != 4){
+		fprintf(stderr, "length calculation of 0x10FFFF failed\n");
+		return -1;
+	}
+
+	if (utf_8_codec_Calculate_Length_Encoded(0x110000) >= 0){
+		fprintf(stderr, "length calculation of 0x110000 should cause error\n");
+		return -1;
+	}
 
 	return 0;
 }
