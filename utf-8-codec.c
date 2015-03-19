@@ -30,11 +30,11 @@ int utf_8_codec_Calculate_Length_Decoded(unsigned char in){
 
 	if (in < 0x80){
 		return 1;
-	} else if (in < 0xC0){
-		return 2;
 	} else if (in < 0xE0){
-		return 3;
+		return 2;
 	} else if (in < 0xF0){
+		return 3;
+	} else if (in < 0xF8){
 		return 4;
 	}
 
